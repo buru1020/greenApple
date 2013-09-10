@@ -7,7 +7,7 @@
 			<img  alt="photo" src="${rootPath}/res/photo/yk.jpg" class="side_menu_member_photo">
 		</div>
 		<div>
-			<p>${member.name}<br>
+			<p><a href="${rootPath}/member/myInfoUpdate">${member.name}</a><br>
 			${member.email}<br>
 			${member.tel}</p>
 		</div>
