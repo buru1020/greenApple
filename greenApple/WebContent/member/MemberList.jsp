@@ -59,6 +59,7 @@
 </c:forEach>
 				</tbody>
 			</table>
+			<p><a href="${rootPath}/member/add">[새멤버]</a></p>
 		</div>
 	</section>
 	<!-- Section End -->

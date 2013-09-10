@@ -18,23 +18,17 @@ import net.bitacademy.java41.vo.Project;
 @SuppressWarnings("serial")
 public class ProjectAddServlet extends HttpServlet{
 	@Override
-	protected void doGet(
-		HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		RequestDispatcher rd = 
-				request.getRequestDispatcher("/project/NewForm.jsp");
+	protected void doGet( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher rd = request.getRequestDispatcher("/project/NewForm.jsp");
 		rd.forward(request, response);
 	}
 	
 	@Override
-	protected void doPost(
-		HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ProjectDao projectDao = 
 				(ProjectDao) this.getServletContext().getAttribute("projectDao");
 		
 		try {
-			request.setCharacterEncoding("UTF-8");
 			Member member = (Member)request.getSession().getAttribute("member");
 			Project project = new Project()
 							.setTitle(request.getParameter("title"))

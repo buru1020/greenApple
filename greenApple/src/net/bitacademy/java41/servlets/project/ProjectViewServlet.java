@@ -29,7 +29,6 @@ public class ProjectViewServlet extends HttpServlet {
 		ProjectDao projectDao = (ProjectDao) this.getServletContext().getAttribute("projectDao");
 		MemberDao memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
 		try {
-			request.setCharacterEncoding("UTF-8");
 			HttpSession session = request.getSession();
 			ProjectEx project = projectDao.getProjectDetail( Integer.parseInt(request.getParameter("no")) );
 			List<Map> memberList = memberDao.getPrjtMbrList( Integer.parseInt(request.getParameter("no")) );

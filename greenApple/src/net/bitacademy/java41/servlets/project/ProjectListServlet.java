@@ -21,11 +21,9 @@ import net.bitacademy.java41.vo.ProjectEx;
 @SuppressWarnings("serial")
 public class ProjectListServlet extends HttpServlet {
 	@Override
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		ProjectDao projectDao = (ProjectDao) this.getServletContext()
-				.getAttribute("projectDao");
+		ProjectDao projectDao = (ProjectDao) this.getServletContext().getAttribute("projectDao");
 		try {
 			List<ProjectEx> list = projectDao.getProjectList();
 			HttpSession session = request.getSession();

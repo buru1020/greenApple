@@ -54,13 +54,11 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8");
 		
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
-		MemberDao memberDao = 
-				(MemberDao) this.getServletContext().getAttribute("memberDao");
+		MemberDao memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
 		try {
 			Member member = memberDao.getMember(email, password);
 			HttpSession session = request.getSession();
