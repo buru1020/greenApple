@@ -157,8 +157,6 @@ public class ProjectDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		ArrayList<ProjectEx> list = new ArrayList<ProjectEx>();
-
 		try {
 			con = conPool.getConnection();
 			String sql = 
@@ -243,6 +241,72 @@ public class ProjectDao {
 			stmt.executeUpdate();
 			
 			return project.getNo();
+			
+		} catch (Exception e) {
+			throw e;
+			
+		} finally {
+			try {stmt.close();} catch(Exception e) {}
+			if (con != null) {
+				conPool.returnConnection(con);
+			}
+		}
+	}
+
+	public int update(Project project) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			con = conPool.getConnection();
+			stmt = con.prepareStatement(
+				"update SPMS_PRJS set"
+				+ " TITLE=?, CONTENT=?, START_DATE=?, END_DATE=?, TAG=? "
+				+ " where PNO=?");
+			stmt.setString(1, project.getTitle());
+			stmt.setString(2, project.getContent());
+			stmt.setDate(3, project.getStartDate());
+			stmt.setDate(4, project.getEndDate());
+			stmt.setString(5, project.getTag());
+			stmt.setInt(6, project.getNo());
+			return stmt.executeUpdate();
+
+		} catch (Exception e) {
+			throw e;
+		
+		} finally {
+			try {stmt.close();} catch(Exception e) {}
+			if (con != null) {
+				conPool.returnConnection(con);
+			}
+		}
+	}
+
+	public int delete(int no) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			con = conPool.getConnection();
+			
+			// 1. SPMS_PRJMEMB 삭제
+			String sql  = 
+					"delete from SPMS_PRJMEMB"
+							+ " where PNO=?";	
+			System.out.println("[Member Delete_1] SQL :: \n " + sql);
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, no);
+			stmt.executeUpdate();
+			stmt.close();
+			
+			// 2. SPMS_MEMBS 삭제
+			String sql2  = 
+					"delete from SPMS_PRJS"
+							+ " where PNO=?";	
+			System.out.println("[Member Delete_1] SQL :: \n " + sql2);
+			stmt = con.prepareStatement(sql2);
+			stmt.setInt(1, no);
+			return stmt.executeUpdate();
 			
 		} catch (Exception e) {
 			throw e;

@@ -54,8 +54,8 @@
 			<option value="9">손님</option>
 			</select><br>
 			
-			<input type="submit" value="등록">
-			<input type="reset" value="취소">
+			<input type="submit" value="변경">
+			<a href="${rootPath}/member/view?email=${memberInfo.email}">취소</a>
 			</form>
 			<p><a href="list">[목록]</a></p>
 	</section>

@@ -23,7 +23,6 @@ public class MemberUpdateServlet extends HttpServlet {
 		try {
 			String email = request.getParameter("email");
 			Member memberInfo = memberDao.getMember(email);
-			
 			request.setAttribute("memberInfo", memberInfo);
 			RequestDispatcher rd = request.getRequestDispatcher("/member/MemberUpdateForm.jsp");
 			rd.forward(request, response);
@@ -41,27 +40,40 @@ public class MemberUpdateServlet extends HttpServlet {
 		
 		try {
 			String email = request.getParameter("email");
-			String oldPassword = request.getParameter("password");
-			String newPassword = request.getParameter("newPassword");
-			String newPassword2 = request.getParameter("newPassword2");
+			String password = request.getParameter("password");
+			String name = request.getParameter("name");
+			String tel = request.getParameter("tel");
+			String blog = request.getParameter("blog");
+			String tag = request.getParameter("tag");
+			Member memberInfo = memberDao.getMember(email);
 			
-			
-//			if (newPassword.equals(newPassword2)) {
-//				if (memberDao.changePassword(email, oldPassword, newPassword) > 0) {
-//					request.setAttribute("status", "SUCCESS");
-//				} else {
-//					request.setAttribute("status", "OLD_PASSWORD_ERROR");
-//				}
-//			} else {
-//				request.setAttribute("status", "NEW_PASSWORD_ERROR");
-//			}
-//			
-//			RequestDispatcher rd = request.getRequestDispatcher("/member/passwordChangeResult.jsp");
-//			rd.forward(request, response);
-			
+			String returnUrl = request.getServletContext().getContextPath() + "/main";
+			String status = "";
+			if (memberInfo.getPassword().equals(password)) {
+				memberInfo.setName(!"".equals(name) ? name : memberInfo.getName());
+				memberInfo.setTel(!"".equals(tel) ? tel : memberInfo.getTel());
+				memberInfo.setBlog(!"".equals(blog) ? blog : memberInfo.getBlog());
+				memberInfo.setTag(!"".equals(tag) ? tag : memberInfo.getTag());
+				
+				if (memberDao.update(memberInfo) > 0) {
+					returnUrl = request.getServletContext().getContextPath() + "/member/view?email=" + memberInfo.getEmail();
+					status = "UPDATE_SUCCESS";
+				} else {
+					returnUrl = request.getServletContext().getContextPath() + "/member/update?email=" + memberInfo.getEmail();
+					status = "UPDATE_FAIL";
+				}
+			} else {
+				returnUrl = request.getServletContext().getContextPath() + "/member/update?email=" + memberInfo.getEmail();
+				status = "PASSWORD_WRONG";
+			}
+			request.setAttribute("returnUrl", returnUrl);
+			request.setAttribute("status", status);
+			RequestDispatcher rd = request.getRequestDispatcher("/member/MemberResult.jsp");
+			rd.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
-			RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
+			RequestDispatcher rd = 
+					request.getRequestDispatcher("/Error.jsp");
 			rd.forward(request, response);
 		}
 	}

@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta charset="utf-8">
 <title>Green Apple</title>
-<link rel="icon" type="image/png" href="../res/logo_sim.png">
+<link rel="icon" type="image/png" href="${rootPath}/res/logo_sim.png">
 	
 <link rel="stylesheet" href="${rootPath}/css/base.css">	
 <link rel="stylesheet" href="${rootPath}/css/signup_1.css" type="text/css" />
@@ -47,6 +47,10 @@
 			종료일: <%=project.getEndDate() %><br>
 			내용: <br><%=project.getContent().replace("\n", "<br>") %>	
 			<br>
+			<p><a href="list">[목록]</a>
+			<a href="update?no=${project.no}">[변경]</a>
+			<a href="delete?no=${project.no}">[삭제]</a>
+			</p>
 			<br>
 			<h2>프로젝트 맴버</h2>
 <% 		if (memberList != null && memberList.size() > 0) {

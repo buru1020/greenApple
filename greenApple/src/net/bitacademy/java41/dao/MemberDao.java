@@ -74,7 +74,9 @@ public class MemberDao {
 				Member member = new Member()
 											.setEmail(rs.getString("EMAIL"))
 											.setName(rs.getString("MNAME"))
+											.setPassword(rs.getString("PWD"))
 											.setTel(rs.getString("TEL"))
+											.setTag(rs.getString("TAG"))
 											.setLevel(rs.getInt("LEVEL"));
 				return member;
 				
@@ -230,6 +232,72 @@ public class MemberDao {
 			stmt.setString(6, member.getDetailAddress());
 			stmt.setString(7, member.getTag());
 			stmt.setInt(8, member.getLevel());
+			return stmt.executeUpdate();
+			
+		} catch (Exception e) {
+			throw e;
+			
+		} finally {
+			try {stmt.close();} catch(Exception e) {}
+			if (con != null) {
+				conPool.returnConnection(con);
+			}
+		}
+	}
+	
+	public int update(Member member) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			con = conPool.getConnection();
+			stmt = con.prepareStatement(
+				"update SPMS_MEMBS set"
+				+ " MNAME=?, TEL=?, BLOG=?, TAG=?, UPDATE_DATE=now()"
+				+ " where EMAIL=?");
+			stmt.setString(1, member.getName());
+			stmt.setString(2, member.getTel());
+			stmt.setString(3, member.getBlog());
+			stmt.setString(4, member.getTag());
+			stmt.setString(5, member.getEmail());
+			return stmt.executeUpdate();
+
+		} catch (Exception e) {
+			throw e;
+		
+		} finally {
+			try {stmt.close();} catch(Exception e) {}
+			if (con != null) {
+				conPool.returnConnection(con);
+			}
+		}
+	}
+
+
+	public int delete(String email) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			con = conPool.getConnection();
+			
+			// 1. SPMS_PRJMEMB 삭제
+			String sql  = 
+					"delete from SPMS_PRJMEMB"
+							+ " where EMAIL=?";	
+			System.out.println("[Member Delete_1] SQL :: \n " + sql);
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, email);
+			stmt.executeUpdate();
+			stmt.close();
+			
+			// 2. SPMS_MEMBS 삭제
+			String sql2  = 
+					"delete from SPMS_MEMBS"
+							+ " where EMAIL=?";	
+			System.out.println("[Member Delete_1] SQL :: \n " + sql2);
+			stmt = con.prepareStatement(sql2);
+			stmt.setString(1, email);
 			return stmt.executeUpdate();
 			
 		} catch (Exception e) {

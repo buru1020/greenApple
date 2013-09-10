@@ -39,6 +39,7 @@
 	<!-- Section Start -->
 	<section class=main_content_section>
 		<div>
+			<h2>프로젝트 목록</h2>
 			<table style="table-layout: fixed; width: 700px; text-align: center;">
 				<thead><tr>
 					<td style="width: 400px;">프로젝트명</td>
