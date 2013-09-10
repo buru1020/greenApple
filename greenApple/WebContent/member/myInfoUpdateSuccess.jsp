@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Refresh" content="2;url=../project/list">
+<meta http-equiv="Refresh" content="2;url=${rootPath}/main">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>개인 정보 변경 성공</title>
 </head>

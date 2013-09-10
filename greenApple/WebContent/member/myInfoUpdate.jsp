@@ -30,23 +30,29 @@
 			<h1>개인 정보 변경</h1>
 			<form action="myInfoUpdate" method="post">
 				*이메일: <input type="text" name="email" value="${member.email}" readonly><br> 
-				*암호: <input type="password" name="password">
+				*암호: <input type="password" name="password" >
 				<a href="${rootPath}/member/passwordChange">[비밀번호 변경]</a><br> 
-				*이름: <input type="text" name="name"><br> 
-				*전화: <input type="text" name="tel"><br>
-				블로그: <input type="text" name="blog"><br> 
+				*이름: <input type="text" name="name" value="${member.name}"><br> 
+				*전화: <input type="text" name="tel" value="${member.tel}"><br>
+				블로그: <input type="text" name="blog" value="${member.blog}"><br> 
 				우편번호: <input type="text" name="postno">
 					<input type="button" value="우편번호찾기"><br> 
 				기본주소: <input type="text" name="basicAddr"><br> 
 				상세주소: <input type="text" name="detailAddr"><br> 
-				태그: <input type="text" name="tag"><br> 
-				권한: <input type="text" name="level" value="${member.level}" readonly><br> 				
+				태그: <input type="text" name="tag" value="${member.tag}"><br> 
+				권한: <select name="level">
+					<c:choose>
+						<c:when test="${member.level == 0}"><option value="0" selected>일반회원</option></c:when>
+						<c:when test="${member.level == 1}"><option value="1">관리자</option></c:when>
+						<c:when test="${member.level == 2}"><option value="2">PM</option></c:when>
+						<c:when test="${member.level == 9}"><option value="9">손님</option></c:when>
+					</c:choose>
+					</select><br>
 				<input type="submit" value="변경"> 
 			</form>
 			
 			<p>
 				<a href="../main">[이전]</a> 
-				<a href="../project/list">[목록]</a>
 			</p>
 		</div>
 </section>	

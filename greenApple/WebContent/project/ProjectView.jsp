@@ -2,6 +2,7 @@
 <%@page import="net.bitacademy.java41.vo.ProjectEx"%>
 <%@page import="net.bitacademy.java41.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:useBean id="projectList" type="java.util.ArrayList<ProjectEx>" scope="session"></jsp:useBean>
 <jsp:useBean id="project" type="net.bitacademy.java41.vo.ProjectEx" scope="session"></jsp:useBean>
 <jsp:useBean id="memberList" type="java.util.ArrayList<java.util.Map>" scope="session"></jsp:useBean>
@@ -39,13 +40,16 @@
 	<!-- Section Start -->
 	<section class=main_content_section>
 		<div>
-<% 	if (project != null) { %>				
-			<h2><%=project.getTitle() %></h2>
-			번호: <%=project.getNo() %><br>
-			PL: <%=(project.getPlName() == null) ? "없음" : project.getPlName()%><br>
-			시작일: <%=project.getStartDate() %><br>
-			종료일: <%=project.getEndDate() %><br>
-			내용: <br><%=project.getContent().replace("\n", "<br>") %>	
+				
+			<h2>${project.title}</h2>
+			번호: ${project.no}<br>
+			PL: <c:choose>
+				<c:when test="${project.plName == ''}">없음</c:when>
+				<c:otherwise>${project.plName}</c:otherwise>
+			 </c:choose><br>
+			시작일: ${project.startDate}<br>
+			종료일: ${project.endDate}<br>
+			내용: <br>${project.content}	
 			<br>
 			<p><a href="list">[목록]</a>
 			<a href="update?no=${project.no}">[변경]</a>
@@ -53,19 +57,22 @@
 			</p>
 			<br>
 			<h2>프로젝트 맴버</h2>
-<% 		if (memberList != null && memberList.size() > 0) {
-	System.out.println(memberList.size());
-			for(Map map : memberList) { %>
-				<%=((Member)map.get("projectMember")).getName() %>
-				<%=(Integer)map.get("level") == 0 ? "★" : "" %>
-				<br>
-<%			}
-		} else {%>	
-			<span>프로젝트 맴버가 없습니다.</span>
-<% 		} %>	
-<% 	} else { %>
-<span>프로젝트 정보가 없습니다.</span>
-<% 	} %>					
+			<table style="text-align: center;">
+				<tr>
+					<th style="width: 5em;">이름</th>
+					<th style="width: 10em;">이메일</th>
+					<th style="width: 10em;">전화</th>
+					<th style="width: 10em;">블로그</th>
+				</tr>
+<% 			for(Map map : memberList) { %>
+				<tr>
+					<td> <%=((Member)map.get("projectMember")).getName() %> <%=(Integer)map.get("level") == 0 ? "★" : "" %> </td>
+					<td> <%=((Member)map.get("projectMember")).getEmail() %> </td>
+					<td> <%=((Member)map.get("projectMember")).getTel() %> </td>
+					<td> <%=(((Member)map.get("projectMember")).getBlog() == null) ? "-" : ((Member)map.get("projectMember")).getBlog() %> </td>
+				</tr>
+<%			} %>	
+			</table>
 		</div>
 	</section>
 	<!-- Section End -->

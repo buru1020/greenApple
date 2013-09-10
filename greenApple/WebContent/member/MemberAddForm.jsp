@@ -47,7 +47,7 @@
 			기본주소: <input type="text" name="basicAddr"><br>
 			상세주소: <input type="text" name="detailAddr"><br>
 			태그: <input type="text" name="tag"><br>
-			권한: <select name="level">
+			권한: <select name="level" disabled="disabled">
 			<option value="0" selected>일반회원</option>
 			<option value="1">관리자</option>
 			<option value="2">PM</option>
