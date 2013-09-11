@@ -39,7 +39,14 @@ public class MemberDao {
 				Member member = new Member()
 											.setEmail(rs.getString("EMAIL"))
 											.setName(rs.getString("MNAME"))
+											.setTel(rs.getString("PWD"))
 											.setTel(rs.getString("TEL"))
+											.setBlog(rs.getString("BLOG"))
+											.setRegDate(rs.getDate("REG_DATE"))
+											.setUpdateDate(rs.getDate("UPDATE_DATE"))
+											.setAddressNo(rs.getInt("ANO"))
+											.setDetailAddress(rs.getString("DET_ADDR"))
+											.setTag(rs.getString("TAG"))
 											.setLevel(rs.getInt("LEVEL"));
 				return member;
 				
@@ -72,12 +79,17 @@ public class MemberDao {
 			rs = stmt.executeQuery();
 			if (rs.next()) {
 				Member member = new Member()
-											.setEmail(rs.getString("EMAIL"))
-											.setName(rs.getString("MNAME"))
-											.setPassword(rs.getString("PWD"))
-											.setTel(rs.getString("TEL"))
-											.setTag(rs.getString("TAG"))
-											.setLevel(rs.getInt("LEVEL"));
+												.setEmail(rs.getString("EMAIL"))
+												.setName(rs.getString("MNAME"))
+												.setTel(rs.getString("PWD"))
+												.setTel(rs.getString("TEL"))
+												.setBlog(rs.getString("BLOG"))
+												.setRegDate(rs.getDate("REG_DATE"))
+												.setUpdateDate(rs.getDate("UPDATE_DATE"))
+												.setAddressNo(rs.getInt("ANO"))
+												.setDetailAddress(rs.getString("DET_ADDR"))
+												.setTag(rs.getString("TAG"))
+												.setLevel(rs.getInt("LEVEL"));
 				return member;
 				
 			} else {

@@ -49,22 +49,18 @@ public class MemberUpdateServlet extends HttpServlet {
 			
 			String returnUrl = request.getServletContext().getContextPath() + "/main";
 			String status = "";
-			if (memberInfo.getPassword().equals(password)) {
-				memberInfo.setName(!"".equals(name) ? name : memberInfo.getName());
-				memberInfo.setTel(!"".equals(tel) ? tel : memberInfo.getTel());
-				memberInfo.setBlog(!"".equals(blog) ? blog : memberInfo.getBlog());
-				memberInfo.setTag(!"".equals(tag) ? tag : memberInfo.getTag());
-				
-				if (memberDao.update(memberInfo) > 0) {
-					returnUrl = request.getServletContext().getContextPath() + "/member/view?email=" + memberInfo.getEmail();
-					status = "UPDATE_SUCCESS";
-				} else {
-					returnUrl = request.getServletContext().getContextPath() + "/member/update?email=" + memberInfo.getEmail();
-					status = "UPDATE_FAIL";
-				}
+			memberInfo.setPassword(!"".equals(password) ? password : memberInfo.getPassword());
+			memberInfo.setName(!"".equals(name) ? name : memberInfo.getName());
+			memberInfo.setTel(!"".equals(tel) ? tel : memberInfo.getTel());
+			memberInfo.setBlog(!"".equals(blog) ? blog : memberInfo.getBlog());
+			memberInfo.setTag(!"".equals(tag) ? tag : memberInfo.getTag());
+			
+			if (memberDao.update(memberInfo) > 0) {
+				returnUrl = request.getServletContext().getContextPath() + "/member/view?email=" + memberInfo.getEmail();
+				status = "UPDATE_SUCCESS";
 			} else {
 				returnUrl = request.getServletContext().getContextPath() + "/member/update?email=" + memberInfo.getEmail();
-				status = "PASSWORD_WRONG";
+				status = "UPDATE_FAIL";
 			}
 			request.setAttribute("returnUrl", returnUrl);
 			request.setAttribute("status", status);

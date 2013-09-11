@@ -29,6 +29,9 @@ public class AuthFilter implements Filter {
 		
 		Member member = (Member)request.getSession().getAttribute("member");
 		if (member != null || /*로그인 했다면*/
+				request.getServletPath().endsWith(".css") ||
+				request.getServletPath().endsWith(".png") ||
+				request.getServletPath().endsWith(".gif") ||
 				request.getServletPath().startsWith("/auth") || /* 로그인/로그아웃 요청인 경우*/ 
 				request.getServletPath().startsWith("/member/signin")) /* 회원가입인 경우 */
 		{ 
