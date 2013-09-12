@@ -2,10 +2,6 @@
 <%@page import="net.bitacademy.java41.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="member" type="net.bitacademy.java41.vo.Member" scope="session"></jsp:useBean>
-<jsp:useBean id="projectList" type="java.util.ArrayList<ProjectEx>" scope="session"></jsp:useBean>
-<jsp:useBean id="allProjectList" type="java.util.ArrayList<ProjectEx>" scope="session"></jsp:useBean>
-
 
 <!DOCTYPE html>
 <html>
@@ -13,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta charset="utf-8">
 <title>Green Apple</title>
-<link rel="icon" type="image/png" href="../res/logo_sim.png">
+<link rel="icon" type="image/png" href="${rootPath}/res/logo_sim.png">
 	
 <link rel="stylesheet" href="${rootPath}/css/base.css">	
 <link rel="stylesheet" href="${rootPath}/css/signup_1.css" type="text/css" />
@@ -49,19 +45,22 @@
 					<td style="width: 10px"></td>
 				</tr></thead>
 				<tbody>
-<% 	for(ProjectEx p : allProjectList) { %>
+<c:forEach var="project" items="${totalProjectList}">
 					<tr>
-						<td style="text-align: left;"><a href="javascript:clickProject(<%=p.getNo() %>)"><%=p.getTitle() %></a></td>
-						<td><%=p.getStartDate() %></td>
-						<td><%=p.getEndDate() %></td>
-						<td><%=(p.getPlName() == null) ? "-" : p.getPlName()%></td>
-						<td><%=( member.getEmail().equals(p.getPlEmail()) ) ? "★" : ""%></td>
+						<td style="text-align: left;"><a href="${rootPath}/project/view.do?no=${project.no}">${project.title}</a></td>
+						<td>${project.startDate}</td>
+						<td>${project.endDate}</td>
+						<td><c:choose>
+							<c:when test="${project.plName != ''}">${project.plName}</c:when>
+							<c:otherwise>-</c:otherwise>
+						</c:choose></td>
+						<td><c:if test="${project.plEmail == sessionScope.member.email}">★</c:if></td>
 					</tr>
-			
-<% 	} %>		</tbody>
+</c:forEach>					
+				</tbody>
 			</table>
 			<c:if test="${!(member.level == 1)}">
-			<p><a href="${rootPath}/project/add">[신규 프로젝트]</a></p>
+			<p><a href="${rootPath}/project/addForm.do">[신규 프로젝트]</a></p>
 			</c:if> 
 		</div>
 	</section>

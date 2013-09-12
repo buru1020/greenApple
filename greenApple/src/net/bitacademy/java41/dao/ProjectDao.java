@@ -18,7 +18,7 @@ public class ProjectDao {
 		this.conPool = conPool;
 	}
 	
-	public List<ProjectEx> getProjectList(String email) throws Exception {
+	public List<ProjectEx> getUserProjectList(String email) throws Exception {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -39,19 +39,6 @@ public class ProjectDao {
 					+" where a.PNO = b.PNO  "
 					+"     and b.EMAIL = c.EMAIL"
 					+" order by a.PNO desc";
-//					" select a.PNO, a.TITLE, a.CONTENT, a.START_DATE, a.END_DATE, a.TAG, b.LEVEL, b.EMAIL, b.MNAME, b.TEL"  
-//					+" from SPMS_PRJS a" 
-//					+" , (" 
-//					+" select a.PNO, a.LEVEL, a.EMAIL, b.MNAME, b.TEL" 
-//					+" from SPMS_PRJMEMB a"
-//					+" , SPMS_MEMBS b"
-//					+" where a.EMAIL = b.EMAIL"
-//					+" group by a.PNO"
-//					+" ) b "
-//					+" where 1=1" 
-//					+" and a.PNO = b.PNO"
-//					+" and b.EMAIL = ?"
-//					+" order by PNO desc";
 			System.out.println("[listPorject(email)] SQL :: \n" + sql);
 			stmt = con.prepareStatement(sql);
 			stmt.setString(1, email);
@@ -106,19 +93,6 @@ public class ProjectDao {
 					+" where 1=1"
 					+"     and a.EMAIL = b.EMAIL"
 					+ " order by a.PNO desc";
-//					" select a.PNO, a.TITLE, a.CONTENT, a.START_DATE, a.END_DATE, a.TAG, b.LEVEL, b.EMAIL, b.MNAME, b.TEL"  
-//					+" from SPMS_PRJS a "
-//					+" left join ("
-//					+" select a.PNO, a.LEVEL, a.EMAIL, b.MNAME, b.TEL"
-//					+" from SPMS_PRJMEMB a"
-//					+" , SPMS_MEMBS b"
-//					+" where a.EMAIL = b.EMAIL"
-//					+ " and a.LEVEL = 0"
-//					+" group by a.PNO"
-//					+" ) b "
-//					+" on (a.PNO = b.PNO)"
-//					+" where 1=1 "
-//					+" order by PNO desc";
 			System.out.println("[listPorject] SQL :: \n" + sql);
 			stmt = con.prepareStatement(sql);
 			rs = stmt.executeQuery();
@@ -152,7 +126,7 @@ public class ProjectDao {
 		}
 	}
 
-	public ProjectEx getProjectDetail(int no) throws Exception {
+	public ProjectEx getProjectInfol(int no) throws Exception {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;

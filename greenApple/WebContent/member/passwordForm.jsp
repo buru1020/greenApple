@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta charset="utf-8">
 <title>Green Apple</title>
-<link rel="icon" type="image/png" href="../res/logo_sim.png">
+<link rel="icon" type="image/png" href="${rootPath}/res/logo_sim.png">
 
 <link rel="stylesheet" href="${rootPath}/css/base.css">
 <link rel="stylesheet" href="${rootPath}/css/signup_1.css"
@@ -38,7 +38,7 @@
 		<section class=main_content_section>
 		<div>
 		<h1>암호변경</h1>
-<form action="passwordChange" method="post">
+<form action="passwordChange.do" method="post">
 이메일: <input type="text" name="email" value="${member.email}" readonly><br>
 이전 암호: <input type="password" name="password"><br>
 새 암호: <input type="password" name="newPassword"><br>
@@ -49,8 +49,7 @@
 	
 			
 			<p>
-				<a href="myInfoUpdate?email=${member.email}">[이전]</a> 
-				<a href="../project/list">[목록]</a>
+				<a href="myInfoUpdate.do?email=${member.email}">[이전]</a> 
 			</p>
 		</div>
 		</section>

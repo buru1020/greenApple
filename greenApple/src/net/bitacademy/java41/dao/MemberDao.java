@@ -3,14 +3,12 @@ package net.bitacademy.java41.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import net.bitacademy.java41.util.DBConnectionPool;
 import net.bitacademy.java41.vo.Member;
+import net.bitacademy.java41.vo.ProjectMember;
 
 public class MemberDao {
 	DBConnectionPool conPool;
@@ -114,7 +112,7 @@ public class MemberDao {
 			con = conPool.getConnection();
 			String sql = 
 					"insert into SPMS_MEMBS( EMAIL, MNAME, PWD, TEL, BLOG, REG_DATE, UPDATE_DATE, ANO, DET_ADDR, TAG, LEVEL )"
-							+ " values(?, ?, ?, ?, ?, now(), now(), NULL, NULL, NULL)";
+							+ " values(?, ?, ?, ?, ?, now(), now(), NULL, NULL, NULL, 0)";
 			System.out.println("[addMember] SQL ::\n" + sql);
 			stmt = con.prepareStatement(sql);
 			stmt.setString(1, member.getEmail());
@@ -139,7 +137,7 @@ public class MemberDao {
 		}
 	}
 
-	public List<Map> getPrjtMbrList(int no) throws Exception {
+	public List<ProjectMember> getProjectMemberList(int no) throws Exception {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -147,7 +145,7 @@ public class MemberDao {
 		try {
 			con = conPool.getConnection();
 			String sql = 
-					"select a.PNO, a.LEVEL, a.EMAIL, b.MNAME, b.TEL, b.BLOG, b.ANO, b.DET_ADDR, b.TAG, b.LEVEL"
+					"select a.PNO, a.LEVEL as PRJ_LVL, a.EMAIL, b.MNAME, b.TEL, b.BLOG, b.ANO, b.DET_ADDR, b.TAG, b.LEVEL as MEMB_LVL"
 					+" from SPMS_PRJMEMB a"
 					+" , SPMS_MEMBS b"
 					+" where a.EMAIL = b.EMAIL"
@@ -157,22 +155,20 @@ public class MemberDao {
 			stmt = con.prepareStatement(sql);
 			stmt.setInt(1, no);
 			rs = stmt.executeQuery();
-			List<Map> list = new ArrayList<Map>();
+			List<ProjectMember> list = new ArrayList<ProjectMember>();
 			while (rs.next()) {
-				Map map = new HashMap();
-				Member projectMember = new Member()
-											.setEmail(rs.getString("EMAIL"))
-											.setName(rs.getString("MNAME"))
-											.setTel(rs.getString("TEL"))
-											.setBlog(rs.getString("BLOG"))
-											.setAddressNo(rs.getInt("ANO"))
-											.setDetailAddress(rs.getString("DET_ADDR"))
-											.setTag(rs.getString("TAG"))
-											.setLevel(rs.getInt("LEVEL"));
-				map.put("no", rs.getInt("PNO"));
-				map.put("level", rs.getInt("LEVEL"));
-				map.put("projectMember", projectMember);
-				list.add(map);
+				ProjectMember projectMember = new ProjectMember()
+										.setProjectNo(rs.getInt("PNO"))
+										.setProjectLevel(rs.getInt("PRJ_LVL"))
+										.setEmail(rs.getString("EMAIL"))
+										.setName(rs.getString("MNAME"))
+										.setTel(rs.getString("TEL"))
+										.setBlog(rs.getString("BLOG"))
+										.setAddressNo(rs.getInt("ANO"))
+										.setDetailAddress(rs.getString("DET_ADDR"))
+										.setTag(rs.getString("TAG"))
+										.setLevel(rs.getInt("MEMB_LVL"));
+				list.add(projectMember);
 			}
 			return list;
 		} catch (Exception e) {
@@ -323,10 +319,7 @@ public class MemberDao {
 		}
 	}
 	
-	public int myInfoChange(
-			String name, String tel, String blog,
-			String detailAddress, String tag, 
-			int level, String email, String password ) throws Exception {
+	public int myInfoChange(Member member) throws Exception {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		
@@ -336,14 +329,14 @@ public class MemberDao {
 				"update SPMS_MEMBS set"
 				+ " MNAME=?,TEL=?,BLOG=?,DET_ADDR=?,TAG=?,LEVEL=?"
 				+ " where EMAIL=? and PWD=?");
-			stmt.setString(1, name);
-			stmt.setString(2, tel);
-			stmt.setString(3, blog);
-			stmt.setString(4, detailAddress);
-			stmt.setString(5, tag);
-			stmt.setInt(6, level);
-			stmt.setString(7, email);
-			stmt.setString(8, password);
+			stmt.setString(1, member.getName());
+			stmt.setString(2, member.getTel());
+			stmt.setString(3, member.getBlog());
+			stmt.setString(4, member.getDetailAddress());
+			stmt.setString(5, member.getTag());
+			stmt.setInt(6, member.getLevel());
+			stmt.setString(7, member.getEmail());
+			stmt.setString(8, member.getPassword());
 			
 			return stmt.executeUpdate();
 

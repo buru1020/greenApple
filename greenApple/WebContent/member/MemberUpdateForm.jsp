@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta charset="utf-8">
 <title>Green Apple</title>
-<link rel="icon" type="image/png" href="../res/logo_sim.png">
+<link rel="icon" type="image/png" href="${rootPath}/res/logo_sim.png">
 	
 <link rel="stylesheet" href="${rootPath}/css/base.css">	
 <link rel="stylesheet" href="${rootPath}/css/signup_1.css" type="text/css" />
@@ -35,7 +35,7 @@
 	<!-- Section Start -->
 	<section class=main_content_section>
 			<h1>회원 등록</h1>
-			<form action="update" method="post">
+			<form action="update.do" method="post">
 			<input type="hidden" name="memberInfo" value="${memberInfo}">
 			이메일: <input type="text" name="email" value="${memberInfo.email}" readonly="readonly"><br>
 			암호: <input type="password" name="password"><br>
@@ -55,9 +55,9 @@
 			</select><br>
 			
 			<input type="submit" value="변경">
-			<a href="${rootPath}/member/view?email=${memberInfo.email}">취소</a>
+			<a href="${rootPath}/member/view.do?email=${memberInfo.email}">취소</a>
 			</form>
-			<p><a href="list">[목록]</a></p>
+			<p><a href="list.do">[목록]</a></p>
 	</section>
 	<!-- Section End -->
 	

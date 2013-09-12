@@ -46,10 +46,6 @@ public class ProjectEx extends Project {
 		return this;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	public ProjectEx clone() {
 		ProjectEx obj = new ProjectEx();
 		obj.no = this.no;

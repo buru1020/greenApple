@@ -30,18 +30,17 @@
 		<!-- Section Start -->
 		<section class=main_content_section>
 			<h1>신규 프로젝트 등록하기</h1>
-			<form action="add" method="post">
-				프로젝트명: <input type="text" name="title"><br> 내용:<br>
-				<textarea name="content" rows="4" cols="50"></textarea>
-				<br> 시작일: <input type="text" name="startDate"
-					placeholder="예)2013-4-5"><br> 종료일: <input type="text"
-					name="endDate" placeholder="예)2013-6-5"><br> 태그: <input
-					type="text" name="tag" placeholder="예)태그1 태그2 태그3 (공백으로 구분)"><br>
-				<input type="submit" value="등록"><input type="reset"
-					value="취소"><br>
+			<form action="add.do" method="post">
+				프로젝트명: <input type="text" name="title"><br> 
+				내용:<br>
+				<textarea name="content" rows="4" cols="50"></textarea><br> 
+				시작일: <input type="text" name="startDate"placeholder="예)2013-4-5"><br> 
+				종료일: <input type="text" name="endDate" placeholder="예)2013-6-5"><br> 
+				태그: <input type="text" name="tag" placeholder="예)태그1 태그2 태그3 (공백으로 구분)"><br>
+				<input type="submit" value="등록"><input type="reset"value="취소"><br>
 			</form>
 			<p>
-				<a href="list">[목록]</a>
+				<a href="list.do">[목록]</a>
 			</p>
 		</section>
 		<!-- Section End -->

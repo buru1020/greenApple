@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta charset="utf-8">
 <title>Green Apple</title>
-<link rel="icon" type="image/png" href="../res/logo_sim.png">
+<link rel="icon" type="image/png" href="${rootPath}/res/logo_sim.png">
 
 <link rel="stylesheet" href="${rootPath}/css/base.css">
 <link rel="stylesheet" href="${rootPath}/css/signup_1.css"
@@ -28,10 +28,10 @@
 		<section class=main_content_section>	
 			<div>
 			<h1>개인 정보 변경</h1>
-			<form action="myInfoUpdate" method="post">
+			<form action="myInfoUpdate.do" method="post">
 				*이메일: <input type="text" name="email" value="${member.email}" readonly><br> 
 				*암호: <input type="password" name="password" >
-				<a href="${rootPath}/member/passwordChange">[비밀번호 변경]</a><br> 
+				<a href="${rootPath}/member/passwordChange.do">[비밀번호 변경]</a><br> 
 				*이름: <input type="text" name="name" value="${member.name}"><br> 
 				*전화: <input type="text" name="tel" value="${member.tel}"><br>
 				블로그: <input type="text" name="blog" value="${member.blog}"><br> 
@@ -52,7 +52,7 @@
 			</form>
 			
 			<p>
-				<a href="../main">[이전]</a> 
+				<a href="${rootPath}/main.do">[이전]</a> 
 			</p>
 		</div>
 </section>	
@@ -60,7 +60,7 @@
 		
 		<!-- Section End -->
 
-		
+		</div>
 	<!-- Container End -->
 
 	<jsp:include page="/Tail.jsp"></jsp:include>

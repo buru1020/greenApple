@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Refresh" content="1;url=${rootPath}/main">
+<meta http-equiv="Refresh" content="1;url=${rootPath}/main.do">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>시스템 오류</title>
 </head>

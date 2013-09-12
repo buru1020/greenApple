@@ -30,7 +30,7 @@
 		<!-- Section Start -->
 		<section class=main_content_section>
 			<h1>신규 프로젝트 변경</h1>
-			<form action="update" method="post">
+			<form action="update.do" method="post">
 				번호: <input type="text" name="no" value="${project.no}" readonly="readonly"><br>
 				프로젝트명: <input type="text" name="title" value="${project.title}"><br> 
 				내용:<br>
@@ -39,10 +39,10 @@
 				종료일: <input type="text" name="endDate" value="${project.endDate}" placeholder="예)2013-6-5"><br> 
 				태그: <input type="text" name="tag" value="${project.tag}" placeholder="예)태그1 태그2 태그3 (공백으로 구분)"><br>
 				<input type="submit" value="등록">
-				<a href="${rootPath}/project/view?no=${project.no}">취소</a><br>
+				<a href="${rootPath}/project/view.do?no=${project.no}">취소</a><br>
 			</form>
 			<p>
-				<a href="list">[목록]</a>
+				<a href="list.do">[목록]</a>
 			</p>
 		</section>
 		<!-- Section End -->

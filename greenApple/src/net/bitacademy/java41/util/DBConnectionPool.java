@@ -3,6 +3,7 @@ package net.bitacademy.java41.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class DBConnectionPool {
 	
@@ -12,6 +13,7 @@ public class DBConnectionPool {
 	String driverClass;
 	
 	ArrayList<Connection> list = new ArrayList<Connection>();
+	Hashtable<Thread, Connection> rentTable = new Hashtable<Thread, Connection>();
 
 	public  DBConnectionPool(
 			String dburl, String id, String pwd, String driverClass) {
@@ -24,15 +26,29 @@ public class DBConnectionPool {
 	
 	
 	public Connection getConnection() throws Exception {
-		if (list.size() > 0) {
-			return list.remove(0);
+		Thread curThread = Thread.currentThread();
+		Connection con = rentTable.get(curThread);
+		
+		if (con != null) {
+			return con;
 		} else {
-			Class.forName(driverClass);
-			return DriverManager.getConnection(dburl, id, pwd);
+			if (list.size() > 0) {
+				con = list.remove(0);
+				
+			} else {
+				Class.forName(driverClass);
+				con = DriverManager.getConnection(dburl, id, pwd);
+			}
+			
+			rentTable.put(curThread, con);
+			return con;
 		}
 	}
 	
 	public void returnConnection(Connection con) {
+		Thread curThread = Thread.currentThread();
+		rentTable.remove(curThread);
+		
 		list.add(con);
 	}
 }

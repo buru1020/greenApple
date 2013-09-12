@@ -3,10 +3,6 @@
 <%@page import="net.bitacademy.java41.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<jsp:useBean id="projectList" type="java.util.ArrayList<ProjectEx>" scope="session"></jsp:useBean>
-<jsp:useBean id="project" type="net.bitacademy.java41.vo.ProjectEx" scope="session"></jsp:useBean>
-<jsp:useBean id="memberList" type="java.util.ArrayList<java.util.Map>" scope="session"></jsp:useBean>
-
 
 <!DOCTYPE html>
 <html>
@@ -51,9 +47,9 @@
 			종료일: ${project.endDate}<br>
 			내용: <br>${project.content}	
 			<br>
-			<p><a href="list">[목록]</a>
-			<a href="update?no=${project.no}">[변경]</a>
-			<a href="delete?no=${project.no}">[삭제]</a>
+			<p><a href="list.do">[목록]</a>
+			<a href="update.do?no=${project.no}">[변경]</a>
+			<a href="delete.do?no=${project.no}">[삭제]</a>
 			</p>
 			<br>
 			<h2>프로젝트 맴버</h2>
@@ -64,14 +60,17 @@
 					<th style="width: 10em;">전화</th>
 					<th style="width: 10em;">블로그</th>
 				</tr>
-<% 			for(Map map : memberList) { %>
+<c:forEach var="projectMember" items="${projectMemberList}">
 				<tr>
-					<td> <%=((Member)map.get("projectMember")).getName() %> <%=(Integer)map.get("level") == 0 ? "★" : "" %> </td>
-					<td> <%=((Member)map.get("projectMember")).getEmail() %> </td>
-					<td> <%=((Member)map.get("projectMember")).getTel() %> </td>
-					<td> <%=(((Member)map.get("projectMember")).getBlog() == null) ? "-" : ((Member)map.get("projectMember")).getBlog() %> </td>
+					<td>${projectMember.name} <c:if test="${projectMember.projectLevel == 0}">★</c:if></td>
+					<td>${projectMember.email}</td>
+					<td>${projectMember.tel}</td>
+					<td><c:choose>
+						<c:when test="${projectMember.blog != ''}">${projectMember.blog}</c:when>
+						<c:otherwise>-</c:otherwise>
+					</c:choose></td>
 				</tr>
-<%			} %>	
+</c:forEach>
 			</table>
 		</div>
 	</section>

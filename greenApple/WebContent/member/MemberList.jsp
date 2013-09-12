@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta charset="utf-8">
 <title>Green Apple</title>
-<link rel="icon" type="image/png" href="../res/logo_sim.png">
+<link rel="icon" type="image/png" href="${rootPath}/res/logo_sim.png">
 	
 <link rel="stylesheet" href="${rootPath}/css/base.css">	
 <link rel="stylesheet" href="${rootPath}/css/signup_1.css" type="text/css" />
@@ -46,7 +46,7 @@
 				<tbody>
 <c:forEach var="member" items="${memberList}">				
 					<tr>
-						<td style="text-align: left;"><a href="${rootPath}/member/view?email=${member.email}">${member.name}</a></td>
+						<td style="text-align: left;"><a href="${rootPath}/member/view.do?email=${member.email}">${member.name}</a></td>
 						<td>${member.email}</td>
 						<td>${member.tel}</td>
 						<td><c:choose>
@@ -59,7 +59,7 @@
 </c:forEach>
 				</tbody>
 			</table>
-			<p><a href="${rootPath}/member/add">[새멤버]</a></p>
+			<p><a href="${rootPath}/member/add.do">[새멤버]</a></p>
 		</div>
 	</section>
 	<!-- Section End -->

@@ -10,7 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta charset="utf-8">
 <title>Green Apple</title>
-<link rel="icon" type="image/png" href="../res/logo_sim.png">
+<link rel="icon" type="image/png" href="${rootPath}/res/logo_sim.png">
 	
 <link rel="stylesheet" href="${rootPath}/css/base.css">	
 <link rel="stylesheet" href="${rootPath}/css/signup_1.css" type="text/css" />
@@ -53,16 +53,16 @@
 			상세주소: <br>
 			태그: ${memberInfo.tag}<br>
 			</p> 
-			<p><a href="list">[목록]</a>
-			<a href="update?email=${memberInfo.email}">[변경]</a>
-			<a href="delete?email=${memberInfo.email}">[삭제]</a>
+			<p><a href="list.do">[목록]</a>
+			<a href="update.do?email=${memberInfo.email}">[변경]</a>
+			<a href="delete.do?email=${memberInfo.email}">[삭제]</a>
 			</p>
 			
 			<br>
 			<h2>프로젝트</h2>
 			<ul>
-<c:forEach var="projectEx" items="${projectList}">
-				<li><span>${projectEx.title}&nbsp;&nbsp;[${projectEx.plName}]<c:if test="${projectEx.level == 0}">★</c:if></span></li>
+<c:forEach var="userProject" items="${projectList}">
+				<li><span>${userProject.title}&nbsp;&nbsp;[${userProject.plName}]<c:if test="${userProject.level == 0}">★</c:if></span></li>
 </c:forEach>
 			</ul>			
 		</div>

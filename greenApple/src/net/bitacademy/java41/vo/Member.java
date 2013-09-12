@@ -10,17 +10,17 @@ import java.sql.Date;
 public class Member implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private String 	email;
-	private String 	name;
-	private String		password;
-	private String 	tel;
-	private String 	blog;
-	private Date		regDate;
-	private Date		updateDate;
-	private int			addressNo;
-	private String		detailAddress;
-	private String		tag;
-	private int 		level;
+	protected String 	email;
+	protected String 	name;
+	protected String		password;
+	protected String 	tel;
+	protected String 	blog;
+	protected Date		regDate;
+	protected Date		updateDate;
+	protected int			addressNo;
+	protected String		detailAddress;
+	protected String		tag;
+	protected int 		level;
 	
 	public String getEmail() {
 		return email;
@@ -99,10 +99,6 @@ public class Member implements Serializable {
 		this.level = level;
 		return this;
 	}
-	
-	
-	
-	
 	
 }
 

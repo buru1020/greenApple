@@ -1,28 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-Cookie[] cookies = request.getCookies();
-String email = null;
-String checked = "";
-if (cookies != null) {
-	for( Cookie c : cookies ) {
-		if (c.getName().equals("email")) {
-			email = " value='"+ c.getValue() +"'";
-			checked = "checked";
-			break;
-		}
-	}
-}
-%>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <title>Green Apple - Login</title>
-  <link rel="icon" type="image/png" href="../res/logo_sim.png">
+  <link rel="icon" type="image/png" href="${rootPath}/res/logo_sim.png">
   
-<link rel="stylesheet" href="../css/login_1.css" type="text/css" />
-<link rel="stylesheet" href="../css/login_2.css" type="text/css" />
+<link rel="stylesheet" href="${rootPath}/css/login_1.css" type="text/css" />
+<link rel="stylesheet" href="${rootPath}/css/login_2.css" type="text/css" />
   
 </head>
 <body class="production workflow-layout">
@@ -40,10 +27,12 @@ if (cookies != null) {
 	    </header> -->
 	    <section class="clearfix" id="log-in-container">
 			<div>
-			  <form action="login" method="post" id="login-form" class="aui login-form">
+			  <form action="login.do" method="post" id="login-form" class="aui login-form">
 			  	<!-- <input type="hidden" name="tryLogin" value="true"> -->
 		        <div class="field-group username">
-		          <input type="text" class="text" id="id_username" name="email" <%=email %> autofocus="autofocus" placeholder="Email" />
+		          <input type="text" class="text" id="id_username" name="email" 
+		          <c:if test="${email != ''}">value='${email}'</c:if>
+		           autofocus="autofocus" placeholder="Email" />
 		        </div>
 			    <div class="field-group">
 			      <input type="password" id="id_password" class="password" name="password" placeholder="password" />
@@ -54,11 +43,12 @@ if (cookies != null) {
 			            Log in
 			        </button>
 			        <Span style="margin-left: 10px">
-			        	<input type="checkbox" name="saveId" <%=checked %>><span>save ID</span>
+			        	<input type="checkbox" name="saveId" 
+			        	<c:if test="${isSaveId}">checked</c:if>><span>save ID</span>
 			        </span>
 			      </div>
 					<div class="sign-up">
-			          <a href="${rootPath}/member/signUp">Need an account? Sign up free.</a>
+			          <a href="${rootPath}/member/signupForm.do">Need an account? Sign up free.</a>
 			        </div>
 			    </div>
 			  </form>
