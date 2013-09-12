@@ -182,37 +182,39 @@ public class ProjectDao {
 	
 	public int add(Project project) throws Exception {
 		Connection con = null;
-		PreparedStatement stmt = null;
+		PreparedStatement projectStmt = null;
+		PreparedStatement projectMemberStmt = null;
+		ResultSet rs = null;
 		
 		try {
 			con = conPool.getConnection();
 			
-			stmt = con.prepareStatement(
+			// 1. 프로젝트 정보 insert
+			projectStmt = con.prepareStatement(
 				"insert into SPMS_PRJS("
 				+ " TITLE,CONTENT,START_DATE,END_DATE,TAG)"
 				+ " values(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-			stmt.setString(1, project.getTitle());
-			stmt.setString(2, project.getContent());
-			stmt.setDate(3, project.getStartDate());
-			stmt.setDate(4, project.getEndDate());
-			stmt.setString(5, project.getTag());
-			stmt.executeUpdate();
+			projectStmt.setString(1, project.getTitle());
+			projectStmt.setString(2, project.getContent());
+			projectStmt.setDate(3, project.getStartDate());
+			projectStmt.setDate(4, project.getEndDate());
+			projectStmt.setString(5, project.getTag());
+			projectStmt.executeUpdate();
 			
-			ResultSet rs = stmt.getGeneratedKeys();
+			// 2. 프로젝트 기본키 받기
+			rs = projectStmt.getGeneratedKeys();
 			if (rs.next()) {
 				project.setNo( rs.getInt(1) );
 			}
-			rs.close();
-			stmt.close();
 			
-			
-			stmt = con.prepareStatement(
+			// 3. 프로젝트멤버 정보 insert
+			projectMemberStmt = con.prepareStatement(
 					"insert into SPMS_PRJMEMB("
 					+ " EMAIL,PNO,LEVEL)"
 					+ " values(?,?,0)");
-			stmt.setString(1, project.getLeader());
-			stmt.setInt(2, project.getNo());
-			stmt.executeUpdate();
+			projectMemberStmt.setString(1, project.getLeader());
+			projectMemberStmt.setInt(2, project.getNo());
+			projectMemberStmt.executeUpdate();
 			
 			return project.getNo();
 			
@@ -220,7 +222,9 @@ public class ProjectDao {
 			throw e;
 			
 		} finally {
-			try {stmt.close();} catch(Exception e) {}
+			try {rs.close();} catch(Exception e) {}
+			try {projectStmt.close();} catch(Exception e) {}
+			try {projectMemberStmt.close();} catch(Exception e) {}
 			if (con != null) {
 				conPool.returnConnection(con);
 			}
