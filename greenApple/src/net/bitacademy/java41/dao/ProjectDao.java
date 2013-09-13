@@ -14,8 +14,15 @@ import net.bitacademy.java41.util.DBConnectionPool;
 public class ProjectDao {
 	DBConnectionPool conPool;
 	
+	public ProjectDao() {}
+	
 	public ProjectDao(DBConnectionPool conPool) {
 		this.conPool = conPool;
+	}
+	
+	public ProjectDao setDBConnectionPool(DBConnectionPool conPool) {
+		this.conPool = conPool;
+		return this;
 	}
 	
 	public List<ProjectEx> getUserProjectList(String email) throws Exception {

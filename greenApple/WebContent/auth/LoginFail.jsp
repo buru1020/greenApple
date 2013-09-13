@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Refresh" content="1;url=login">
+<meta http-equiv="Refresh" content="1;url=login.do">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <link rel="icon" type="image/png" href="${rootPath}/res/logo_sim.png">
