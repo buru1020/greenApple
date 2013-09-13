@@ -225,9 +225,6 @@ public class ProjectDao {
 			try {rs.close();} catch(Exception e) {}
 			try {projectStmt.close();} catch(Exception e) {}
 			try {projectMemberStmt.close();} catch(Exception e) {}
-			if (con != null) {
-				conPool.returnConnection(con);
-			}
 		}
 	}
 
