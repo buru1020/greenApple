@@ -251,15 +251,13 @@ public class ProjectDao {
 		
 		} finally {
 			try {stmt.close();} catch(Exception e) {}
-			if (con != null) {
-				conPool.returnConnection(con);
-			}
 		}
 	}
 
 	public int delete(int no) throws Exception {
 		Connection con = null;
-		PreparedStatement stmt = null;
+		PreparedStatement projectMemberStmt = null;
+		PreparedStatement projectStmt = null;
 		
 		try {
 			con = conPool.getConnection();
@@ -269,28 +267,26 @@ public class ProjectDao {
 					"delete from SPMS_PRJMEMB"
 							+ " where PNO=?";	
 			System.out.println("[Member Delete_1] SQL :: \n " + sql);
-			stmt = con.prepareStatement(sql);
-			stmt.setInt(1, no);
-			stmt.executeUpdate();
-			stmt.close();
+			projectMemberStmt = con.prepareStatement(sql);
+			projectMemberStmt.setInt(1, no);
+			projectMemberStmt.executeUpdate();
+			projectMemberStmt.close();
 			
-			// 2. SPMS_MEMBS 삭제
+			// 2. SPMS_PRJS 삭제
 			String sql2  = 
 					"delete from SPMS_PRJS"
 							+ " where PNO=?";	
 			System.out.println("[Member Delete_1] SQL :: \n " + sql2);
-			stmt = con.prepareStatement(sql2);
-			stmt.setInt(1, no);
-			return stmt.executeUpdate();
+			projectStmt = con.prepareStatement(sql2);
+			projectStmt.setInt(1, no);
+			return projectStmt.executeUpdate();
 			
 		} catch (Exception e) {
 			throw e;
 			
 		} finally {
-			try {stmt.close();} catch(Exception e) {}
-			if (con != null) {
-				conPool.returnConnection(con);
-			}
+			try {projectMemberStmt.close();} catch(Exception e) {}
+			try {projectStmt.close();} catch(Exception e) {}
 		}
 	}
 	

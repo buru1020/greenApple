@@ -64,11 +64,43 @@ public class ProjectService {
 	}
 	
 	public int deleteProject(int no) throws Exception {
-		return projectDao.delete(no);
+		Connection con = conPool.getConnection();
+		con.setAutoCommit(false);
+		int count = 0;
+		try {
+			count = projectDao.delete(no);
+			con.commit();
+			
+		} catch (Exception e) {
+			con.rollback();
+			throw e;
+			
+		} finally {
+			con.setAutoCommit(true);
+			conPool.returnConnection(con);
+		}
+		
+		return count;
 	}
 	
 	public int projectUpdate(ProjectEx project) throws Exception {
-		return projectDao.update(project);
+		Connection con = conPool.getConnection();
+		con.setAutoCommit(false);
+		int count = 0;
+		try {
+			count = projectDao.update(project);
+			con.commit();
+			
+		} catch (Exception e) {
+			con.rollback();
+			throw e;
+			
+		} finally {
+			con.setAutoCommit(true);
+			conPool.returnConnection(con);
+		}
+		
+		return count;
 	}
 
 	

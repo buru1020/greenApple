@@ -131,9 +131,6 @@ public class MemberDao {
 			
 		} finally {
 			try {stmt.close();} catch(Exception e) {}
-			if (con != null) {
-				conPool.returnConnection(con);
-			}
 		}
 	}
 
@@ -247,9 +244,6 @@ public class MemberDao {
 			
 		} finally {
 			try {stmt.close();} catch(Exception e) {}
-			if (con != null) {
-				conPool.returnConnection(con);
-			}
 		}
 	}
 	
@@ -275,16 +269,14 @@ public class MemberDao {
 		
 		} finally {
 			try {stmt.close();} catch(Exception e) {}
-			if (con != null) {
-				conPool.returnConnection(con);
-			}
 		}
 	}
 
 
 	public int delete(String email) throws Exception {
 		Connection con = null;
-		PreparedStatement stmt = null;
+		PreparedStatement projectMemberStmt = null;
+		PreparedStatement memberStmt = null;
 		
 		try {
 			con = conPool.getConnection();
@@ -294,28 +286,26 @@ public class MemberDao {
 					"delete from SPMS_PRJMEMB"
 							+ " where EMAIL=?";	
 			System.out.println("[Member Delete_1] SQL :: \n " + sql);
-			stmt = con.prepareStatement(sql);
-			stmt.setString(1, email);
-			stmt.executeUpdate();
-			stmt.close();
+			projectMemberStmt = con.prepareStatement(sql);
+			projectMemberStmt.setString(1, email);
+			projectMemberStmt.executeUpdate();
+			projectMemberStmt.close();
 			
 			// 2. SPMS_MEMBS 삭제
 			String sql2  = 
 					"delete from SPMS_MEMBS"
 							+ " where EMAIL=?";	
 			System.out.println("[Member Delete_1] SQL :: \n " + sql2);
-			stmt = con.prepareStatement(sql2);
-			stmt.setString(1, email);
-			return stmt.executeUpdate();
+			memberStmt = con.prepareStatement(sql2);
+			memberStmt.setString(1, email);
+			return memberStmt.executeUpdate();
 			
 		} catch (Exception e) {
 			throw e;
 			
 		} finally {
-			try {stmt.close();} catch(Exception e) {}
-			if (con != null) {
-				conPool.returnConnection(con);
-			}
+			try {projectMemberStmt.close();} catch(Exception e) {}
+			try {memberStmt.close();} catch(Exception e) {}
 		}
 	}
 	
@@ -345,9 +335,6 @@ public class MemberDao {
 		
 		} finally {
 			try {stmt.close();} catch(Exception e) {}
-			if (con != null) {
-				conPool.returnConnection(con);
-			}
 		}
 	}
 	
@@ -372,9 +359,6 @@ public class MemberDao {
 		
 		} finally {
 			try {stmt.close();} catch(Exception e) {}
-			if (con != null) {
-				conPool.returnConnection(con);
-			}
 		}
 	}
 

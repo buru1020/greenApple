@@ -50,8 +50,10 @@ public class ContextLoaderListener implements ServletContextListener {
 		ProjectDao projectDao = new ProjectDao(conPool) ;
 		
 		AuthService authService  = new AuthService()
+														.setConPool(conPool)
 														.setMemberDao(memberDao);
 		MemberService memberService  = new MemberService()
+														.setConPool(conPool)
 														.setMemberDao(memberDao)
 														.setProjectDao(projectDao);
 		ProjectService projectService  = new ProjectService()

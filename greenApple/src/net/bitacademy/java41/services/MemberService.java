@@ -1,16 +1,23 @@
 package net.bitacademy.java41.services;
 
+import java.sql.Connection;
 import java.util.List;
 
 import net.bitacademy.java41.dao.MemberDao;
 import net.bitacademy.java41.dao.ProjectDao;
+import net.bitacademy.java41.util.DBConnectionPool;
 import net.bitacademy.java41.vo.Member;
 import net.bitacademy.java41.vo.ProjectEx;
 
 public class MemberService {
+	DBConnectionPool conPool;
 	MemberDao memberDao;
 	ProjectDao projectDao;
 
+	public MemberService setConPool(DBConnectionPool conPool) {
+		this.conPool = conPool;
+		return this;
+	}
 	public MemberService setMemberDao(MemberDao memberDao) {
 		this.memberDao = memberDao;
 		return this;
@@ -21,11 +28,43 @@ public class MemberService {
 	}
 
 	public int signUp(Member member) throws Exception {
-		return memberDao.addMember(member);
+		Connection con = conPool.getConnection();
+		con.setAutoCommit(false);
+		int count = 0;
+		try {
+			count = memberDao.addMember(member);
+			con.commit();
+			
+		} catch (Exception e) {
+			con.rollback();
+			throw e;
+			
+		} finally {
+			con.setAutoCommit(true);
+			conPool.returnConnection(con);
+		}
+		
+		return count;
 	}
 
-	public void addMember(Member member) throws Exception {
-		memberDao.add(member);
+	public int addMember(Member member) throws Exception {
+		Connection con = conPool.getConnection();
+		con.setAutoCommit(false);
+		int count = 0;
+		try {
+			count = memberDao.add(member);
+			con.commit();
+			
+		} catch (Exception e) {
+			con.rollback();
+			throw e;
+			
+		} finally {
+			con.setAutoCommit(true);
+			conPool.returnConnection(con);
+		}
+		
+		return count;
 	}
 
 	public List<Member> getTotalMemberList() throws Exception {
@@ -41,20 +80,85 @@ public class MemberService {
 	}
 	
 	public int deleteMember(String email) throws Exception {
-		return memberDao.delete(email);
+		Connection con = conPool.getConnection();
+		con.setAutoCommit(false);
+		int count = 0;
+		try {
+			count = memberDao.delete(email);
+			con.commit();
+			
+		} catch (Exception e) {
+			con.rollback();
+			throw e;
+			
+		} finally {
+			con.setAutoCommit(true);
+			conPool.returnConnection(con);
+		}
+		
+		return count;
 	}
 	
 	public int isChangePassword(String email, String oldPassword
 			, String newPassword) throws Exception {
-		return memberDao.changePassword(email, oldPassword, newPassword);
+		Connection con = conPool.getConnection();
+		con.setAutoCommit(false);
+		int count = 0;
+		try {
+			count = memberDao.changePassword(email, oldPassword, newPassword);
+			con.commit();
+			
+		} catch (Exception e) {
+			con.rollback();
+			throw e;
+			
+		} finally {
+			con.setAutoCommit(true);
+			conPool.returnConnection(con);
+		}
+		
+		return count;
 	}
 	
 	public int updateMemberInfo(Member member) throws Exception {
-		return memberDao.update(member);
+		Connection con = conPool.getConnection();
+		con.setAutoCommit(false);
+		int count = 0;
+		try {
+			count = memberDao.update(member);
+			con.commit();
+			
+		} catch (Exception e) {
+			con.rollback();
+			throw e;
+			
+		} finally {
+			con.setAutoCommit(true);
+			conPool.returnConnection(con);
+		}
+		
+		return count;
+		
 	}
 	
 	public int myInfoChange(Member member) throws Exception {
-		return memberDao.myInfoChange(member);
+		Connection con = conPool.getConnection();
+		con.setAutoCommit(false);
+		int count = 0;
+		try {
+			count = memberDao.myInfoChange(member);
+			con.commit();
+			
+		} catch (Exception e) {
+			con.rollback();
+			throw e;
+			
+		} finally {
+			con.setAutoCommit(true);
+			conPool.returnConnection(con);
+		}
+		
+		return count;
 	}
 
 
