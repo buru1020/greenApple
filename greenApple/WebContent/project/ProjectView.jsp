@@ -36,7 +36,13 @@
 	<!-- Section Start -->
 	<section class=main_content_section>
 		<div>
-				
+				<div id="submenu">
+<p>
+<a href="view.do?no=${project.no}">[기본정보]</a>	|	
+<a href="../task/list.do?projectNo=${project.no}">[작업들]</a>	|	
+<a href="../feed/list.do?projectNo=${project.no}">[게시판]</a>
+</p>
+</div>
 			<h2>${project.title}</h2>
 			번호: ${project.no}<br>
 			PL: <c:choose>

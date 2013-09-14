@@ -15,7 +15,7 @@ public class Task {
 	`STATUS`     INTEGER      NULL     DEFAULT 0 COMMENT '상태' -- 상태
 	 * */
 	protected int tno;
-	protected int pno;
+	protected int projectNo;
 	protected String title;
 	protected String uiProtocol;
 	protected String content;
