@@ -32,10 +32,10 @@ public class Task {
 		return this;
 	}
 	public int getPno() {
-		return pno;
+		return projectNo;
 	}
-	public Task setPno(int pno) {
-		this.pno = pno;
+	public Task setProjectNo(int projectNo) {
+		this.projectNo = projectNo;
 		return this;
 	}
 	public String getTitle() {
