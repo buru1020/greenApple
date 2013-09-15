@@ -1,16 +1,16 @@
 package net.bitacademy.java41.controls.task;
 
+import java.util.List;
 import java.util.Map;
-
 
 import net.bitacademy.java41.controls.PageControl;
 import net.bitacademy.java41.services.TaskService;
 import net.bitacademy.java41.vo.Task;
 
-public class TaskViewControl implements PageControl {
+public class TaskListControl implements PageControl {
 	TaskService taskService;
 	
-	public TaskViewControl setTaskService(TaskService taskService) {
+	public TaskListControl setTaskService(TaskService taskService) {
 		this.taskService = taskService;
 		return this;
 	}
@@ -20,14 +20,13 @@ public class TaskViewControl implements PageControl {
 		@SuppressWarnings("unchecked")
 		Map<String, String[]> params = (Map<String, String[]>) model.get("params");
 		
-
-		int projectNo = Integer.parseInt(params.get("projectNo")[0]);
-		int taskNo = Integer.parseInt(params.get("taskNo")[0]);
-		
-		Task task = taskService.getTask(projectNo, taskNo);
-		model.put("task", task);
-		
-		return "/task/taskView.jsp";
-	}
 	
+		int no = Integer.parseInt(params.get("projectNo")[0]);
+		
+		List<Task> taskList = taskService.getTaskList(no);
+		model.put("taskList", taskList);
+		
+		return "/task/taskList.jsp";
+	}
+		
 }

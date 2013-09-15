@@ -14,24 +14,24 @@ public class Task {
 	`END_DATE`   DATETIME     NULL     COMMENT '종료일', -- 종료일
 	`STATUS`     INTEGER      NULL     DEFAULT 0 COMMENT '상태' -- 상태
 	 * */
-	protected int tno;
+	protected int taskNo;
 	protected int projectNo;
 	protected String title;
-	protected String uiProtocol;
+	protected String uiProtoUrl;
 	protected String content;
 	protected Date startDate;
 	protected Date endDate;
 	protected int status;
+	protected String projectTitle;
 
-	
-	public int getTno() {
-		return tno;
+	public int getTaskNo() {
+		return taskNo;
 	}
-	public Task setTno(int tno) {
-		this.tno = tno;
+	public Task setTaskNo(int taskNo) {
+		this.taskNo = taskNo;
 		return this;
 	}
-	public int getPno() {
+	public int getProjectNo() {
 		return projectNo;
 	}
 	public Task setProjectNo(int projectNo) {
@@ -45,11 +45,11 @@ public class Task {
 		this.title = title;
 		return this;
 	}
-	public String getUiProtocol() {
-		return uiProtocol;
+	public String getUiProtoUrl() {
+		return uiProtoUrl;
 	}
-	public Task setUiProtocol(String uiProtocol) {
-		this.uiProtocol = uiProtocol;
+	public Task setUiProtoUrl(String uiProtoUrl) {
+		this.uiProtoUrl = uiProtoUrl;
 		return this;
 	}
 	public String getContent() {
@@ -78,6 +78,13 @@ public class Task {
 	}
 	public Task setStatus(int status) {
 		this.status = status;
+		return this;
+	}
+	public String getProjectTitle() {
+		return projectTitle;
+	}
+	public Task setProjectTitle(String projectTitle) {
+		this.projectTitle = projectTitle;
 		return this;
 	}
 	
