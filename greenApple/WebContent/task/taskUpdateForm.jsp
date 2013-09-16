@@ -35,7 +35,7 @@
 				<input type="hidden" name="taskNo" value="${task.taskNo}">
 				프로젝트명: ${task.projectTitle}<br> 
 				작업명: <input type="text" name="title" value="${task.title}"><br>
-				UI프로토타입: <input type="text" name="title" value="${task.uiProtocol}"><br>
+				UI프로토타입: <input type="text" name="title" value="${task.uiProtoUrl}"><br>
 				내용:<br>
 				<textarea name="content" rows="4" cols="50">${task.content}</textarea><br> 
 				시작일: <input type="text" name="startDate" value="${task.startDate}" placeholder="예)2013-4-5"><br> 
