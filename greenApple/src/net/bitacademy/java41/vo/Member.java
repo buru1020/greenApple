@@ -21,6 +21,7 @@ public class Member implements Serializable {
 	protected String		detailAddress;
 	protected String		tag;
 	protected int 		level;
+	protected String[]	photos;
 	
 	public String getEmail() {
 		return email;
@@ -99,6 +100,14 @@ public class Member implements Serializable {
 		this.level = level;
 		return this;
 	}
+	public String[] getPhotos() {
+		return photos;
+	}
+	public Member setPhotos(String[] photos) {
+		this.photos = photos;
+		return this;
+	}
+	
 	
 }
 

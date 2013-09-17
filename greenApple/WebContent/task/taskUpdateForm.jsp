@@ -30,12 +30,12 @@
 		<!-- Section Start -->
 		<section class=main_content_section>
 			<h1>작업변경</h1>
-			<form action="update.do" method="post">
+			<form action="update.do" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="projectNo" value="${task.projectNo}">
 				<input type="hidden" name="taskNo" value="${task.taskNo}">
-				프로젝트명: ${task.projectTitle}<br> 
+				프로젝트명: ${project.title}<br> 
 				작업명: <input type="text" name="title" value="${task.title}"><br>
-				UI프로토타입: <input type="text" name="title" value="${task.uiProtoUrl}"><br>
+				UI프로토타입: <input type="file" name="uiProto" ><br>
 				내용:<br>
 				<textarea name="content" rows="4" cols="50">${task.content}</textarea><br> 
 				시작일: <input type="text" name="startDate" value="${task.startDate}" placeholder="예)2013-4-5"><br> 

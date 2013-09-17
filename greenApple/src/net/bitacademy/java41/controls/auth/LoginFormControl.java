@@ -3,10 +3,11 @@ package net.bitacademy.java41.controls.auth;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.bitacademy.java41.annotation.Component;
 import net.bitacademy.java41.controls.PageControl;
 
 
-
+@Component("/auth/loginForm.do")
 public class LoginFormControl implements PageControl {
 
 	@Override

@@ -2,6 +2,8 @@ package net.bitacademy.java41.servlets;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
@@ -13,6 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.bitacademy.java41.controls.PageControl;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
 @SuppressWarnings("serial")
 public class DispatcherServlet extends HttpServlet {
 	
@@ -21,14 +28,18 @@ public class DispatcherServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HashMap<String, Object> model = new HashMap<String, Object>();
 		
-		HashMap<String, String> cookieMap = createCookieMap(request);
-		model.put("cookies", cookieMap);
-		model.put("params", request.getParameterMap());
-		model.put("session", request.getSession());
-		model.put("request", request);
-		model.put("response", response);
-		
 		try {
+			HashMap<String, String> cookieMap = createCookieMap(request);
+			model.put("cookies", cookieMap);
+			if (ServletFileUpload.isMultipartContent(request)) {
+				model.put("params", getMultipartParameterMap(request));
+			} else {
+				model.put("params", request.getParameterMap());
+			}
+			model.put("session", request.getSession());
+			model.put("request", request);
+			model.put("response", response);
+		
 			String viewUrl = null;
 			PageControl control = (PageControl) request.getServletContext().getAttribute(request.getServletPath());
 			
@@ -45,6 +56,22 @@ public class DispatcherServlet extends HttpServlet {
 			processResult(request, response, "/Error.jsp");
 		}
 		
+	}
+
+	private Map<String, Object> getMultipartParameterMap(HttpServletRequest request) throws Exception {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		FileItemFactory factory = new DiskFileItemFactory();
+		ServletFileUpload uploadHandler = new ServletFileUpload(factory);
+		List<FileItem> partList = uploadHandler.parseRequest(request);
+		for( FileItem item : partList ) {
+			if (item.isFormField()) {
+				params.put(item.getFieldName(), item.getString("UTF-8"));
+			} else {
+				params.put(item.getFieldName(), item);
+			}
+		}
+		
+		return params;
 	}
 
 	private void processResult(HttpServletRequest request,

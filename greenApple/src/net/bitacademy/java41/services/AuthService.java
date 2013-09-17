@@ -1,9 +1,11 @@
 package net.bitacademy.java41.services;
 
+import net.bitacademy.java41.annotation.Component;
 import net.bitacademy.java41.dao.MemberDao;
 import net.bitacademy.java41.util.DBConnectionPool;
 import net.bitacademy.java41.vo.Member;
 
+@Component
 public class AuthService {
 	DBConnectionPool conPool;
 	MemberDao memberDao;

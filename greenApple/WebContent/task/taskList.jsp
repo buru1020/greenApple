@@ -36,7 +36,7 @@
 
 </div>
 			<h2>작업 목록</h2>
-			<p>${taskList.get(0).projectTitle}</p>
+			<p>${project.title}</p>
 			<table style="text-align: center;">
 				<tr>
 					<th style="width: 10em;">작업명</th>
@@ -44,6 +44,7 @@
 					<th style="width: 10em;">종료일</th>
 					<th style="width: 3em;">상태</th>
 				</tr>
+				
 <c:forEach var="task" items="${taskList}">
 				<tr>
 					<td><a href="view.do?projectNo=${task.projectNo}&taskNo=${task.taskNo}">${task.title}</a></td>
@@ -58,7 +59,7 @@
 				</tr>
 </c:forEach>
 			</table>
-			<p><a href="${rootPath}/task/add.do?projectNo=${taskList.get(0).projectNo}">[새 작업]</a></p>
+			<p><a href="${rootPath}/task/addForm.do?projectNo=${project.no}">[새 작업]</a></p>
 		</div>
 	</section>
 	<!-- Section End -->

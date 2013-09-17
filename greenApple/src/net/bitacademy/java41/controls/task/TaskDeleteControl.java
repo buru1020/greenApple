@@ -4,9 +4,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.bitacademy.java41.annotation.Component;
 import net.bitacademy.java41.controls.PageControl;
 import net.bitacademy.java41.services.TaskService;
 
+@Component("/task/delete.do")
 public class TaskDeleteControl implements PageControl {
 	TaskService taskService;
 	

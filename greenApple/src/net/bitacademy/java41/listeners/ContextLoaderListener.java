@@ -1,41 +1,21 @@
 package net.bitacademy.java41.listeners;
 
+import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import net.bitacademy.java41.controls.MainControl;
-import net.bitacademy.java41.controls.auth.LoginControl;
-import net.bitacademy.java41.controls.auth.LoginFormControl;
-import net.bitacademy.java41.controls.auth.LogoutControl;
-import net.bitacademy.java41.controls.member.MemberAddControl;
-import net.bitacademy.java41.controls.member.MemberDeleteControl;
-import net.bitacademy.java41.controls.member.MemberListControl;
-import net.bitacademy.java41.controls.member.MemberUpdateControl;
-import net.bitacademy.java41.controls.member.MemberViewControl;
-import net.bitacademy.java41.controls.member.MyInfoUpdateControl;
-import net.bitacademy.java41.controls.member.PasswordChangeControl;
-import net.bitacademy.java41.controls.member.SignupControl;
-import net.bitacademy.java41.controls.member.SignupFormControl;
-import net.bitacademy.java41.controls.project.ProjectAddControl;
-import net.bitacademy.java41.controls.project.ProjectAddFormControl;
-import net.bitacademy.java41.controls.project.ProjectDeleteControl;
-import net.bitacademy.java41.controls.project.ProjectListControl;
-import net.bitacademy.java41.controls.project.ProjectUpdateControl;
-import net.bitacademy.java41.controls.project.ProjectViewControl;
-import net.bitacademy.java41.dao.MemberDao;
-import net.bitacademy.java41.dao.ProjectDao;
-import net.bitacademy.java41.services.AuthService;
-import net.bitacademy.java41.services.MemberService;
-import net.bitacademy.java41.services.ProjectService;
-import net.bitacademy.java41.util.DBConnectionPool;
+import net.bitacademy.java41.annotation.Component;
+
+import org.reflections.Reflections;
 
 public class ContextLoaderListener implements ServletContextListener {
 	ServletContext ctx;
@@ -44,12 +24,17 @@ public class ContextLoaderListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		ctx = event.getServletContext();
-		ctx.setAttribute("rootPath", ctx.getContextPath());
+		
+		objTable.put("rootPath", ctx.getContextPath());
+		objTable.put("rootRealPath", ctx.getRealPath("/"));
 		
 		try {
-			prepareObjects(ctx.getRealPath("/WEB-INF/context.properties"));
+			loadProperties( ctx.getRealPath("/WEB-INF/db.properties") );
+			prepareObjects( new File(ctx.getRealPath("/WEB-INF/classes")) );
+			
 			prepareDependency();
 			saveToContext();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -113,34 +98,55 @@ public class ContextLoaderListener implements ServletContextListener {
 		}
 		return null;
 	}
-
+	
 	@SuppressWarnings("rawtypes")
-	private void prepareObjects(String filePath) throws Exception {
+	private void loadProperties(String propPath) throws Exception {
 		Properties props = new Properties();
-		props.load( new FileReader(filePath));
+		props.load( new FileReader(propPath) );
 		
 		Enumeration enums = props.keys();
 		String key = null;
-		String value = null;
-		Class clazz = null;
-		
 		while (enums.hasMoreElements()) {
 			key = (String) enums.nextElement();
-			value = ((String) props.get(key)).trim();
-			if (value.charAt(0) == '"') {
-				objTable.put(key, value.substring(1, value.length()-1));
-			} else {
-				clazz =  Class.forName(value);
-				objTable.put(key, clazz.newInstance());
-			}
+			objTable.put( key, ((String) props.get(key)).trim() );
 		}
 	}
 	
-	// 웹 어플리케이션이 종료 될 때 호출됨.
-		@Override
-		public void contextDestroyed(ServletContextEvent arg0) {
-			// TODO Auto-generated method stub
-			
+	/**
+	 * 1) classpath를 뒤져서 net.bitacademy.java41 패키지를 찾는다. 
+	 */
+	@SuppressWarnings("rawtypes")
+	private void prepareObjects(File file) throws Exception {
+		Reflections reflector = new Reflections("net.bitacademy.java41");
+		
+		Set<Class<?>> list = reflector.getTypesAnnotatedWith(Component.class);
+		String key = null;
+		for( Class clazz : list ) {
+			key = getKeyFromClass(clazz);
+			objTable.put(key, clazz.newInstance());
 		}
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private String getKeyFromClass(Class clazz) throws Exception {
+		Component compAnno =  (Component) clazz.getAnnotation(Component.class);
+		if (compAnno != null) {
+			String value = compAnno.value();
+			if (value.equals("")) {
+				String className = clazz.getSimpleName();	//getName()은 패키지 포함된 이름  getSimpleName()은 페키지 포함 안된 이름
+				// ex) ProjectService => proejctService
+				return className.substring(0, 1).toLowerCase() 
+						+ className.substring(1); 
+			} else {
+				return value;
+			}
+		} else {
+			return null;
+		}
+	}
 
+	@Override
+	public void contextDestroyed(ServletContextEvent arg0) {
+		
+	}
 }

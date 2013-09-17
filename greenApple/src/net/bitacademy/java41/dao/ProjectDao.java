@@ -9,8 +9,10 @@ import java.util.List;
 
 import net.bitacademy.java41.vo.Project;
 import net.bitacademy.java41.vo.ProjectEx;
+import net.bitacademy.java41.annotation.Component;
 import net.bitacademy.java41.util.DBConnectionPool;
 
+@Component
 public class ProjectDao {
 	DBConnectionPool conPool;
 	

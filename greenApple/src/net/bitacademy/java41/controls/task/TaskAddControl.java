@@ -1,72 +1,67 @@
 package net.bitacademy.java41.controls.task;
 
+import java.io.File;
 import java.sql.Date;
 import java.util.Map;
 
+import org.apache.commons.fileupload.FileItem;
 
-
-import javax.servlet.http.HttpServletRequest;
-
+import net.bitacademy.java41.annotation.Component;
 import net.bitacademy.java41.controls.PageControl;
 import net.bitacademy.java41.services.TaskService;
-import net.bitacademy.java41.vo.ProjectEx;
 import net.bitacademy.java41.vo.Task;
 
+@Component("/task/add.do")
 public class TaskAddControl implements PageControl {
+	String rootRealPath;
 	TaskService taskService;
+	long curTime = 0;
+	int count = 0;
 	
+	public void setRootRealPath(String rootRealPath) {
+		this. rootRealPath = rootRealPath;
+	}
 	public TaskAddControl setTaskService(TaskService taskService) {
 		this.taskService = taskService;
 		return this;
 	}
-	
+
 	@Override
 	public String execute(Map<String, Object> model) throws Exception {
 		@SuppressWarnings("unchecked")
-		Map<String, String[]> params = (Map<String, String[]>) model.get("params");
+		Map<String, Object> params = (Map<String, Object>) model.get("params");
 		
-		if (params.get("title") != null) {
-			return update(model);
-		} else {
-			return form(model);
+		FileItem fileItem = (FileItem) params.get("uiProto");
+		String filename = null;
+		if (fileItem.getSize() > 0) {
+			filename = getNewFileName();
+			String path = rootRealPath + "res/ui/" + filename;
+			fileItem.write( new File(path) );
 		}
-	}
-	
-	private String form(Map<String, Object> model) throws Exception {
-		@SuppressWarnings("unchecked")
-		Map<String, String[]> params = (Map<String, String[]>) model.get("params");
 		
-		int projectNo = Integer.parseInt(params.get("projectNo")[0]);
-		
-		model.put("projectNo", projectNo);
-		
-		return "/task/taskAddForm.jsp";
-	}
-	
-	private String update(Map<String, Object> model) throws Exception {
-		@SuppressWarnings("unchecked")
-		Map<String, String[]> params = (Map<String, String[]>) model.get("params");
-		
-		int projectNo = Integer.parseInt(params.get("projectNo")[0]);
-		String title = params.get("title")[0];
-		String content = params.get("content")[0];
-		String uiProtoUrl = params.get("uiProtoUrl")[0];
-		Date startDate = Date.valueOf( params.get("startDate")[0] );
-		Date endDate = Date.valueOf( params.get("endDate")[0] );
-		int status = Integer.parseInt( params.get("status")[0] );
-
 		Task task = new Task()
-								.setProjectNo(projectNo)
-								.setTitle(title)
-								.setUiProtoUrl(uiProtoUrl)
-								.setContent(content)
-								.setStartDate(startDate)
-								.setEndDate(endDate)
-								.setStatus(status);
+								.setProjectNo( Integer.parseInt( (String) params.get("projectNo")) )
+								.setTitle( (String) params.get("title") )
+								.setUiProtoUrl( filename )
+								.setContent( (String) params.get("content") )
+								.setStartDate( Date.valueOf((String) params.get("startDate")) )
+								.setEndDate( Date.valueOf((String) params.get("endDate")) )
+								.setStatus( Integer.parseInt((String) params.get("status")) )
+								;
 		
 		taskService.taskAdd(task);
 			
-		return "redirect:../task/list.do?projectNo=" + projectNo;
+		return "redirect:../task/list.do?projectNo=" + task.getProjectNo();
+	}
+	
+	synchronized
+	private String getNewFileName() {
+		long millis = System.currentTimeMillis();
+		if (curTime != millis) {
+			curTime = millis;
+			count = 0;
+		}
+		return "uiproto_" + millis + "_" + (++count);
 	}
 	
 }

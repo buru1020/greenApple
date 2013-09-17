@@ -28,12 +28,13 @@
 		<section class=main_content_section>	
 			<div>
 			<h1>개인 정보 변경</h1>
-			<form action="myInfoUpdate.do" method="post">
+			<form action="myInfoUpdate.do" method="post" enctype="multipart/form-data">
 				*이메일: <input type="text" name="email" value="${member.email}" readonly><br> 
 				*암호: <input type="password" name="password" >
 				<a href="${rootPath}/member/passwordChange.do">[비밀번호 변경]</a><br> 
 				*이름: <input type="text" name="name" value="${member.name}"><br> 
 				*전화: <input type="text" name="tel" value="${member.tel}"><br>
+				사진: <input type="file" name="photo"><br>
 				블로그: <input type="text" name="blog" value="${member.blog}"><br> 
 				우편번호: <input type="text" name="postno">
 					<input type="button" value="우편번호찾기"><br> 

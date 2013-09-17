@@ -2,11 +2,15 @@ package net.bitacademy.java41.controls.project;
 
 import java.sql.Date;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
+import net.bitacademy.java41.annotation.Component;
 import net.bitacademy.java41.controls.PageControl;
 import net.bitacademy.java41.services.ProjectService;
 import net.bitacademy.java41.vo.ProjectEx;
 
+@Component("/project/update.do")
 public class ProjectUpdateControl implements PageControl {
 	ProjectService projectService;
 	

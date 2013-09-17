@@ -38,6 +38,15 @@
 		<div>
 			<h2>회원정보</h2>
 			<p>
+			<c:choose>
+				<c:when test="${memberInfo.photos[0] != null}">
+					<img  alt="photo" src="${rootPath}/res/photo/${memberInfo.photos[0]}" class="side_menu_member_photo">
+				</c:when>
+				<c:otherwise>
+					<img  alt="photo" src="${rootPath}/res/photo/yk.jpg" class="side_menu_member_photo">
+				</c:otherwise>
+			</c:choose>
+			<br>
 			구분: <c:choose>
 					<c:when test="${memberInfo.level == 0}">일반</c:when>
 					<c:when test="${memberInfo.level == 1}">관리자</c:when>
@@ -54,7 +63,7 @@
 			태그: ${memberInfo.tag}<br>
 			</p> 
 			<p><a href="list.do">[목록]</a>
-			<a href="update.do?email=${memberInfo.email}">[변경]</a>
+			<a href="updateForm.do?email=${memberInfo.email}">[변경]</a>
 			<a href="delete.do?email=${memberInfo.email}">[삭제]</a>
 			</p>
 			

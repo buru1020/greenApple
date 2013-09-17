@@ -30,11 +30,11 @@
 		<!-- Section Start -->
 		<section class=main_content_section>
 			<h1>작업변경</h1>
-			<form action="add.do" method="post">
-				<input type="hidden" name="projectNo" value="${projectNo}">
-				프로젝트명: ${task.projectTitle}<br> 
+			<form action="add.do" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="projectNo" value="${project.no}">
+				프로젝트명: ${project.title}<br> 
 				작업명: <input type="text" name="title" placeholder="작업명"><br>
-				UI프로토타입: <input type="text" name="uiProtoUrl" placeholder="/task/add.do"><br>
+				UI프로토타입: <input type="file" name="uiProto" ><br>
 				내용:<br>
 				<textarea name="content" rows="4" cols="50">${task.content}</textarea><br> 
 				시작일: <input type="text" name="startDate" placeholder="예)2013-4-5"><br> 
@@ -49,7 +49,7 @@
 				<input type="reset" value="취소">
 			</form>
 			<p>
-				<a href="list.do?projectNo=${task.projectNo}">[목록]</a>
+				<a href="list.do?projectNo=${project.no}">[목록]</a>
 			</p>
 		</section>
 		<!-- Section End -->

@@ -3,12 +3,14 @@ package net.bitacademy.java41.services;
 import java.sql.Connection;
 import java.util.List;
 
+import net.bitacademy.java41.annotation.Component;
 import net.bitacademy.java41.dao.MemberDao;
 import net.bitacademy.java41.dao.ProjectDao;
 import net.bitacademy.java41.util.DBConnectionPool;
 import net.bitacademy.java41.vo.Member;
 import net.bitacademy.java41.vo.ProjectEx;
 
+@Component
 public class MemberService {
 	DBConnectionPool conPool;
 	MemberDao memberDao;
@@ -33,6 +35,12 @@ public class MemberService {
 		int count = 0;
 		try {
 			count = memberDao.addMember(member);
+			String[] photos = member.getPhotos();
+			if (photos != null) {
+				for( String path : photos ) {
+					memberDao.addPhoto(member.getEmail(), path);
+				}
+			}
 			con.commit();
 			
 		} catch (Exception e) {
@@ -126,6 +134,12 @@ public class MemberService {
 		int count = 0;
 		try {
 			count = memberDao.update(member);
+			String[] photos = member.getPhotos();
+			if (photos != null) {
+				for( String path : photos ) {
+					memberDao.addPhoto(member.getEmail(), path);
+				}
+			}
 			con.commit();
 			
 		} catch (Exception e) {
@@ -147,6 +161,12 @@ public class MemberService {
 		int count = 0;
 		try {
 			count = memberDao.myInfoChange(member);
+			String[] photos = member.getPhotos();
+			if (photos != null) {
+				for( String path : photos ) {
+					memberDao.addPhoto(member.getEmail(), path);
+				}
+			}
 			con.commit();
 			
 		} catch (Exception e) {

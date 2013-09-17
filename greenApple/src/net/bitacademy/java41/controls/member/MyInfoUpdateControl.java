@@ -1,59 +1,63 @@
 package net.bitacademy.java41.controls.member;
 
+import java.io.File;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.FileItem;
+
+import net.bitacademy.java41.annotation.Component;
 import net.bitacademy.java41.controls.PageControl;
 import net.bitacademy.java41.services.MemberService;
 import net.bitacademy.java41.vo.Member;
 
+@Component("/member/myInfoUpdate.do")
 public class MyInfoUpdateControl implements PageControl {
+	String rootRealPath;
 	MemberService memberService;
+	long curTime = 0;
+	int count = 0;
 	
+	public void setRootRealPath(String rootRealPath) {
+		this. rootRealPath = rootRealPath;
+	}
 	public MyInfoUpdateControl setMemberService(MemberService memberService) {
 		this.memberService = memberService;
 		return this;
 	}
 	
+
 	@Override
 	public String execute(Map<String, Object> model) throws Exception {
 		@SuppressWarnings("unchecked")
-		Map<String, String[]> params = (Map<String, String[]>) model.get("params");
+		Map<String, Object> params = (Map<String, Object>) model.get("params");
 		
-		if (params.get("password") != null) {
-			return update(model);
-		} else {
-			return form();
+		FileItem photo = (FileItem) params.get("photo");
+		String[] photos = null;
+		if (photo.getSize() > 0) {
+			String filename = this.getNewFileName();
+			String path = rootRealPath + "res/photo/" + filename;
+			photo.write(new File(path));
+			photos = new String[]{ filename };
 		}
-	}
-	
-	protected String form() {
-		return "/member/myInfoUpdate.jsp";
-	}
-
-	protected String update(Map<String, Object> model) throws Exception {
-		@SuppressWarnings("unchecked")
-		Map<String, String[]> params = (Map<String, String[]>) model.get("params");
 		
-		String email = params.get("email")[0];
-		String name = params.get("name")[0];
-		String password = params.get("password")[0];
-		String tel = params.get("tel")[0];
-		String blog = params.get("blog")[0];
-//		String detailAddress = params.get("detailAddress")[0];
-		String tag = params.get("tag")[0];
-		int level = Integer.parseInt( params.get("level")[0] );
-
-		Member member = new Member()
-						.setEmail(email)
-						.setName(name)
-						.setPassword(password)
-						.setTel(tel)
-						.setBlog(blog)
-//						.setDetailAddress(detailAddress)
-						.setTag(tag)
-						.setLevel(level);
+		String email = (String) params.get("email");
+		String password = (String) params.get("password");
+		String name = (String) params.get("name");
+		String tel = (String) params.get("tel");
+		String blog = (String) params.get("blog");
+		String tag = (String) params.get("tag");
+		int level = Integer.parseInt( (String) params.get("level") );
+		
+		Member member = memberService.getMemberInfo(email);
+		member.setPassword(!"".equals(password) ? password : member.getPassword());
+		member.setName(!"".equals(name) ? name : member.getName());
+		member.setTel(!"".equals(tel) ? tel : member.getTel());
+		member.setBlog(!"".equals(blog) ? blog : member.getBlog());
+		member.setTag(!"".equals(tag) ? tag : member.getTag());
+		member.setLevel(level != 0 ? level : member.getLevel()); 
+		member.setPhotos( photos != null ? photos : member.getPhotos() );
 		
 		
 		int count = memberService.myInfoChange(member);
@@ -66,7 +70,15 @@ public class MyInfoUpdateControl implements PageControl {
 			return "/member/myInfoUpdateFail.jsp";
 		}
 	}
-
-
+	
+	synchronized
+	private String getNewFileName() {
+		long millis = System.currentTimeMillis();
+		if (curTime != millis) {
+			curTime = millis;
+			count = 0;
+		}
+		return "uiproto_" + millis + "_" + (++count);
+	}
 
 }

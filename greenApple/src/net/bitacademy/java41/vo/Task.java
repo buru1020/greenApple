@@ -22,7 +22,6 @@ public class Task {
 	protected Date startDate;
 	protected Date endDate;
 	protected int status;
-	protected String projectTitle;
 
 	public int getTaskNo() {
 		return taskNo;
@@ -78,13 +77,6 @@ public class Task {
 	}
 	public Task setStatus(int status) {
 		this.status = status;
-		return this;
-	}
-	public String getProjectTitle() {
-		return projectTitle;
-	}
-	public Task setProjectTitle(String projectTitle) {
-		this.projectTitle = projectTitle;
 		return this;
 	}
 	

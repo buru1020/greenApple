@@ -35,23 +35,34 @@
 	<!-- Section Start -->
 	<section class=main_content_section>
 			<h1>회원 등록</h1>
-			<form action="update.do" method="post">
+			<form action="update.do" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="memberInfo" value="${memberInfo}">
 			이메일: <input type="text" name="email" value="${memberInfo.email}" readonly="readonly"><br>
 			암호: <input type="password" name="password"><br>
 			이름: <input type="text" name="name" value="${memberInfo.name}"><br>
 			전화: <input type="text" name="tel" value="${memberInfo.tel}"><br>
+			사진: <input type="file" name="photo"><br>
 			블로그: <input type="text" name="blog" value="${memberInfo.blog}"><br>
 			우편번호: <input type="text" name="postno" value="">
 					<input type="button" value="우편번호찾기"><br>
 			기본주소: <input type="text" name="basicAddr" value=""><br>
 			상세주소: <input type="text" name="detailAddr" value="${memberInfo.detailAddress}"><br>
 			태그: <input type="text" name="tag" value="${memberInfo.tag}"><br>
-			권한: <select name="level" disabled="disabled">
-			<option value="0">일반회원</option>
+			권한: <select name="level">
+			<c:choose>
+			<c:when test="${memberInfo.level == 0}">
+				<option value="0" selected>일반회원</option>
+			</c:when>
+			<c:when test="${memberInfo.level == 1}">
 			<option value="1" selected>관리자</option>
-			<option value="2">PM</option>
-			<option value="9">손님</option>
+			</c:when>
+			<c:when test="${memberInfo.level == 2}">
+			<option value="2" selected>PM</option>
+			</c:when>
+			<c:when test="${memberInfo.level == 3}">
+			<option value="9" selected>손님</option>
+			</c:when>
+			</c:choose>
 			</select><br>
 			
 			<input type="submit" value="변경">

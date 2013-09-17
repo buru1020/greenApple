@@ -1,7 +1,3 @@
-<%@page import="java.util.Map"%>
-<%@page import="net.bitacademy.java41.vo.ProjectEx"%>
-<%@page import="net.bitacademy.java41.vo.Member"%>
-<%@page import="net.bitacademy.java41.vo.Task"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -43,8 +39,7 @@
 			<h2>작업 정보</h2>
 						
 			작업명: ${task.title}<br>
-			프로젝트명: ${task.projectTitle}<br>
-			UI프로토타입: ${task.uiProtoUrl}<br>
+			프로젝트명: ${project.title}<br>
 			내용: <br>
 			${task.content}	<br>
 			시작일: ${task.startDate}<br>
@@ -55,8 +50,12 @@
 					<c:when test="${task.status == 2}">완료</c:when>
 					<c:when test="${task.status == 3}">지연</c:when>
 				</c:choose><br>
+			UI프로토타입:<br>
+			<c:if test="${task.uiProtoUrl != null}">
+				<img src="${rootPath}/res/ui/${task.uiProtoUrl}">
+			</c:if>
 			<p><a href="list.do?projectNo=${task.projectNo}">[작업목록]</a>
-			<a href="update.do?projectNo=${task.projectNo}&taskNo=${task.taskNo}">[변경]</a>
+			<a href="updateForm.do?projectNo=${task.projectNo}&taskNo=${task.taskNo}">[변경]</a>
 			<a href="delete.do?projectNo=${task.projectNo}&taskNo=${task.taskNo}">[삭제]</a>
 			</p>
 		</div>

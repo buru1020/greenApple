@@ -10,10 +10,17 @@ pageContext.setAttribute("projectList", projectService.getMyProjects(member.getE
 	<aside class="side_menu_aside">
 		<!-- 프로필 -->
 		<div class="side_photo_div">
-			<img  alt="photo" src="${rootPath}/res/photo/yk.jpg" class="side_menu_member_photo">
+			<c:choose>
+				<c:when test="${member.photos[0] != null}">
+					<img  alt="photo" src="${rootPath}/res/photo/${member.photos[0]}" class="side_menu_member_photo">
+				</c:when>
+				<c:otherwise>
+					<img  alt="photo" src="${rootPath}/res/photo/yk.jpg" class="side_menu_member_photo">
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<div>
-			<p><a href="${rootPath}/member/myInfoUpdate.do">${member.name}</a><br>
+			<p><a href="${rootPath}/member/myInfoUpdateForm.do">${member.name}</a><br>
 			${member.email}<br>
 			${member.tel}</p>
 		</div>

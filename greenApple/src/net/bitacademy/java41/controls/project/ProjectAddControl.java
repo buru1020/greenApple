@@ -2,12 +2,16 @@ package net.bitacademy.java41.controls.project;
 
 import java.sql.Date;
 import java.util.Map;
+
 import javax.servlet.http.HttpSession;
+
+import net.bitacademy.java41.annotation.Component;
 import net.bitacademy.java41.controls.PageControl;
 import net.bitacademy.java41.services.ProjectService;
 import net.bitacademy.java41.vo.Member;
 import net.bitacademy.java41.vo.Project;
 
+@Component("/project/add.do")
 public class ProjectAddControl implements PageControl {
 	ProjectService projectService;
 	

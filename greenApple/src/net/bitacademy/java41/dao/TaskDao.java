@@ -3,13 +3,14 @@ package net.bitacademy.java41.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.bitacademy.java41.annotation.Component;
 import net.bitacademy.java41.util.DBConnectionPool;
 import net.bitacademy.java41.vo.Task;
 
+@Component
 public class TaskDao {
 
 DBConnectionPool conPool;
@@ -34,12 +35,10 @@ DBConnectionPool conPool;
 			con = conPool.getConnection();
 			
 			String sql =
-					" select a.TNO, a.PNO, a.TITLE as TASK_TIT,a.UIPROTOURL, a.CONTENT ,a.START_DATE, a.END_DATE, a.STATUS, b.TITLE as PRJ_TIT" 
-					+" from SPMS_TASKS a, SPMS_PRJS b"
-					+" where a.PNO = b.PNO"
-					+"     and a.PNO = ?"
-					+"     and a.TNO =  ?";
-			
+					" select TNO, PNO, TITLE, UIPROTOURL, CONTENT , START_DATE, END_DATE, STATUS " 
+					+" from SPMS_TASKS"
+					+" where PNO = ? "
+					+"     and TNO =  ? ";
 			System.out.println("[getTask] SQL :: \n" + sql);
 			stmt = con.prepareStatement(sql);
 			stmt.setInt(1, projectNo);
@@ -50,13 +49,12 @@ DBConnectionPool conPool;
 				task =  new Task()
 									.setTaskNo(rs.getInt("TNO"))
 									.setProjectNo(rs.getInt("PNO"))
-									.setTitle(rs.getString("TASK_TIT"))
+									.setTitle(rs.getString("TITLE"))
 									.setUiProtoUrl(rs.getString("UIPROTOURL"))
 									.setContent(rs.getString("CONTENT"))
 									.setStartDate(rs.getDate("START_DATE"))
 									.setEndDate(rs.getDate("END_DATE"))
-									.setStatus(rs.getInt("STATUS"))
-									.setProjectTitle(rs.getString("PRJ_TIT"));
+									.setStatus(rs.getInt("STATUS"));
 			}
 			
 			return task;
@@ -83,11 +81,10 @@ DBConnectionPool conPool;
 			con = conPool.getConnection();
 			
 			String sql =
-						" select a.TNO, a.PNO, a.TITLE as TASK_TIT,a.UIPROTOURL, a.CONTENT ,a.START_DATE, a.END_DATE, a.STATUS, b.TITLE as PRJ_TIT" 
-						+" from SPMS_TASKS a, SPMS_PRJS b"
-						+" where a.PNO = b.PNO"
-						+"     and a.PNO = ?"
-						+" order by TNO";
+						" select TNO, PNO, TITLE, UIPROTOURL, CONTENT , START_DATE, END_DATE, STATUS " 
+						+" from SPMS_TASKS "
+						+" where PNO = ? "
+						+" order by TNO desc ";
 			System.out.println("[getTaskList] SQL :: \n" + sql);
 			stmt = con.prepareStatement(sql);
 			stmt.setInt(1, no);
@@ -97,13 +94,12 @@ DBConnectionPool conPool;
 				taskList.add( new Task()
 						.setTaskNo(rs.getInt("TNO"))
 						.setProjectNo(rs.getInt("PNO"))
-						.setTitle(rs.getString("TASK_TIT"))
+						.setTitle(rs.getString("TITLE"))
 						.setUiProtoUrl(rs.getString("UIPROTOURL"))
 						.setContent(rs.getString("CONTENT"))
 						.setStartDate(rs.getDate("START_DATE"))
 						.setEndDate(rs.getDate("END_DATE"))
 						.setStatus(rs.getInt("STATUS"))
-						.setProjectTitle(rs.getString("PRJ_TIT"))
 						);
 			}
 			

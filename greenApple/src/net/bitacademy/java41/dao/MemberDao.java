@@ -6,10 +6,13 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.bitacademy.java41.annotation.Component;
 import net.bitacademy.java41.util.DBConnectionPool;
 import net.bitacademy.java41.vo.Member;
+import net.bitacademy.java41.vo.Photo;
 import net.bitacademy.java41.vo.ProjectMember;
 
+@Component
 public class MemberDao {
 	DBConnectionPool conPool;
 
@@ -41,6 +44,15 @@ public class MemberDao {
 			stmt.setString(2, password);
 			rs = stmt.executeQuery();
 			if (rs.next()) {
+				List<Photo> list = this.listPhoto(email);
+				String[] photos = null;
+				if (list.size() > 0) {
+					photos = new String[list.size()];
+					int index = 0;
+					for( Photo photo : list ) {
+						photos[index] = photo.getFilename();
+					}
+				}
 				Member member = new Member()
 											.setEmail(rs.getString("EMAIL"))
 											.setName(rs.getString("MNAME"))
@@ -52,7 +64,8 @@ public class MemberDao {
 											.setAddressNo(rs.getInt("ANO"))
 											.setDetailAddress(rs.getString("DET_ADDR"))
 											.setTag(rs.getString("TAG"))
-											.setLevel(rs.getInt("LEVEL"));
+											.setLevel(rs.getInt("LEVEL"))
+											.setPhotos(photos);
 				return member;
 				
 			} else {
@@ -63,7 +76,7 @@ public class MemberDao {
 		} finally {
 			try {rs.close();} catch (Exception e) {}
 			try {stmt.close();} catch (Exception e) {}
-			if (con != null) {
+			if ( con != null && con.getAutoCommit() ) {
 				conPool.returnConnection(con);
 			}
 		}
@@ -83,6 +96,15 @@ public class MemberDao {
 			stmt.setString(1, email);
 			rs = stmt.executeQuery();
 			if (rs.next()) {
+				List<Photo> list = this.listPhoto(email);
+				String[] photos = null;
+				if (list.size() > 0) {
+					photos = new String[list.size()];
+					int index = 0;
+					for( Photo photo : list ) {
+						photos[index] = photo.getFilename();
+					}
+				}
 				Member member = new Member()
 												.setEmail(rs.getString("EMAIL"))
 												.setName(rs.getString("MNAME"))
@@ -94,7 +116,8 @@ public class MemberDao {
 												.setAddressNo(rs.getInt("ANO"))
 												.setDetailAddress(rs.getString("DET_ADDR"))
 												.setTag(rs.getString("TAG"))
-												.setLevel(rs.getInt("LEVEL"));
+												.setLevel(rs.getInt("LEVEL"))
+												.setPhotos(photos);
 				return member;
 				
 			} else {
@@ -105,7 +128,7 @@ public class MemberDao {
 		} finally {
 			try {rs.close();} catch (Exception e) {}
 			try {stmt.close();} catch (Exception e) {}
-			if (con != null) {
+			if ( con != null && con.getAutoCommit() ) {
 				conPool.returnConnection(con);
 			}
 		}
@@ -138,6 +161,9 @@ public class MemberDao {
 			
 		} finally {
 			try {stmt.close();} catch(Exception e) {}
+			if ( con != null && con.getAutoCommit() ) {
+				conPool.returnConnection(con);
+			}
 		}
 	}
 
@@ -180,7 +206,7 @@ public class MemberDao {
 		} finally {
 			try {rs.close();} catch (Exception e) {}
 			try {stmt.close();} catch (Exception e) {}
-			if (con != null) {
+			if ( con != null && con.getAutoCommit() ) {
 				conPool.returnConnection(con);
 			}
 		}
@@ -219,7 +245,7 @@ public class MemberDao {
 		} finally {
 			try {rs.close();} catch (Exception e) {}
 			try {stmt.close();} catch (Exception e) {}
-			if (con != null) {
+			if ( con != null && con.getAutoCommit() ) {
 				conPool.returnConnection(con);
 			}
 		}
@@ -251,6 +277,9 @@ public class MemberDao {
 			
 		} finally {
 			try {stmt.close();} catch(Exception e) {}
+			if ( con != null && con.getAutoCommit() ) {
+				conPool.returnConnection(con);
+			}
 		}
 	}
 	
@@ -276,6 +305,9 @@ public class MemberDao {
 		
 		} finally {
 			try {stmt.close();} catch(Exception e) {}
+			if ( con != null && con.getAutoCommit() ) {
+				conPool.returnConnection(con);
+			}
 		}
 	}
 
@@ -313,6 +345,9 @@ public class MemberDao {
 		} finally {
 			try {projectMemberStmt.close();} catch(Exception e) {}
 			try {memberStmt.close();} catch(Exception e) {}
+			if ( con != null && con.getAutoCommit() ) {
+				conPool.returnConnection(con);
+			}
 		}
 	}
 	
@@ -342,6 +377,9 @@ public class MemberDao {
 		
 		} finally {
 			try {stmt.close();} catch(Exception e) {}
+			if ( con != null && con.getAutoCommit() ) {
+				conPool.returnConnection(con);
+			}
 		}
 	}
 	
@@ -366,163 +404,71 @@ public class MemberDao {
 		
 		} finally {
 			try {stmt.close();} catch(Exception e) {}
+			if ( con != null && con.getAutoCommit() ) {
+				conPool.returnConnection(con);
+			}
 		}
 	}
 
-	
-	/*
-	public List<Member> list() throws Exception {
+	public int addPhoto(String email, String path) throws Exception {
 		Connection con = null;
-		Statement stmt = null;
-		ResultSet rs = null;
+		PreparedStatement stmt = null;
 		
-		ArrayList<Member> list = new ArrayList<Member>();
-
 		try {
 			con = conPool.getConnection();
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(
-					"select MNAME,PHONE,EMAIL from MEMBERS order by MNAME");
+			String sql = 
+					" insert into SPMS_MEMIMG( EMAIL, IMGURL )"
+					+ " values(?, ?)";
+			System.out.println("[addMember] SQL ::\n" + sql);
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, email);
+			stmt.setString(2, path);
+			return stmt.executeUpdate();
 			
-			Member m = null;
-			while(rs.next()) {
-				m = new Member();
-				m.setName(rs.getString("MNAME"));
-				m.setPhone(rs.getString("PHONE"));
-				m.setEmail(rs.getString("EMAIL"));
-				list.add(m);
+		} catch (Exception e) {
+			throw e;
+			
+		} finally {
+			try {stmt.close();} catch(Exception e) {}
+			if ( con != null && con.getAutoCommit() ) {
+				conPool.returnConnection(con);
 			}
-			
+		}
+	}
+
+	private List<Photo> listPhoto(String email) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = conPool.getConnection();
+			stmt = con.prepareStatement(
+					" select INO, IMGURL"
+					+ " from SPMS_MEMIMG"
+					+ " where EMAIL=?");
+			stmt.setString(1, email);	
+			rs = stmt.executeQuery();
+			ArrayList<Photo> list = new ArrayList<Photo>();
+			while (rs.next()) {
+				list.add( new Photo()
+								.setNo(rs.getInt("INO"))
+								.setEmail(email)
+								.setFilename(rs.getString("IMGURL"))
+								); 
+			}
 			return list;
+			
 		} catch (Exception e) {
 			throw e;
-			
 		} finally {
 			try {rs.close();} catch (Exception e) {}
 			try {stmt.close();} catch (Exception e) {}
-			if (con != null) {
+			if ( con != null && con.getAutoCommit() ) {
 				conPool.returnConnection(con);
 			}
 		}
-	}
-
-	public int add(Member member) throws Exception {
-		Connection con = null;
-		PreparedStatement stmt = null;
-		
-		try {
-			con = conPool.getConnection();
-			stmt = con.prepareStatement(
-				"insert into MEMBERS(MNAME,PHONE,EMAIL,BLOG,AGE,REG_DATE)"
-				+ " values(?,?,?,?,?,now())");
-			stmt.setString(1, member.getName());
-			stmt.setString(2, member.getPhone());
-			stmt.setString(3, member.getEmail());
-			stmt.setString(4, member.getBlog());
-			stmt.setInt(5, member.getAge());
-			return stmt.executeUpdate();
-			
-		} catch (Exception e) {
-			throw e;
-			
-		} finally {
-			try {stmt.close();} catch(Exception e) {}
-			if (con != null) {
-				conPool.returnConnection(con);
-			}
-		}
-	}
-
-	public Member get(String email) throws Exception {
-		Connection con = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		
-		try {
-			con = conPool.getConnection();
-			stmt = con.createStatement();
-			
-			rs = stmt.executeQuery(
-					"select MNAME,PHONE,EMAIL,BLOG,AGE,REG_DATE"
-					+ " from MEMBERS"
-					+ " where EMAIL='" + email + "'");
-			
-			if (rs.next()) {
-				Member member = new Member();
-				member.setName(rs.getString("MNAME"));
-				member.setPhone(rs.getString("PHONE"));
-				member.setEmail(rs.getString("EMAIL"));
-				member.setBlog(rs.getString("BLOG"));
-				member.setAge(rs.getInt("AGE"));
-				member.setRegDate(rs.getDate("REG_DATE"));
-				return member;
-				
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			throw e;
-			
-		} finally {
-			try {rs.close();} catch (Exception e) {}
-			try {stmt.close();} catch (Exception e) {}
-			if (con != null) {
-				conPool.returnConnection(con);
-			}
-		}
-	}
-
-	public int change(Member member) throws Exception {
-		Connection con = null;
-		PreparedStatement stmt = null;
-		
-		try {
-			con = conPool.getConnection();
-			stmt = con.prepareStatement(
-				"update MEMBERS set"
-				+ " MNAME=?,PHONE=?,BLOG=?,AGE=?,REG_DATE=now()"
-				+ " where EMAIL=?");
-			stmt.setString(1, member.getName());
-			stmt.setString(2, member.getPhone());
-			stmt.setString(3, member.getBlog());
-			stmt.setInt(4, member.getAge());
-			stmt.setString(5, member.getEmail());
-			return stmt.executeUpdate();
-
-		} catch (Exception e) {
-			throw e;
-		
-		} finally {
-			try {stmt.close();} catch(Exception e) {}
-			if (con != null) {
-				conPool.returnConnection(con);
-			}
-		}
-	}
-
-	public int remove(String email) throws Exception {
-		Connection con = null;
-		Statement stmt = null;
-		
-		try {
-			con = conPool.getConnection();
-			stmt = con.createStatement();
-			
-			return stmt.executeUpdate(
-				"delete from MEMBERS"
-				+ " where EMAIL='" + email + "'");
-			
-		} catch (Exception e) {
-			throw e;
-			
-		} finally {
-			try {stmt.close();} catch(Exception e) {}
-			if (con != null) {
-				conPool.returnConnection(con);
-			}
-		}
-	}
-	*/
+	}	
 	
 }
 
