@@ -58,22 +58,22 @@
 <jsp:include page="/Header.jsp"></jsp:include>
         
 <!-- Sidebar -->
+
 <jsp:include page="/Sidebar.jsp"></jsp:include>
+
 
 <!-- Content -->
    
    
    
 	<!-- Container Start -->
-	
+
 <div class="grid_10">
             <div class="box round first grid">
-                <h2>
+                 <h2>
                     프로젝트 목록</h2>
-                <div class="block">
-                    
-                    
-                    
+                <div class="block ">
+                                  
                     <div class="dataTables_wrapper" id="example_wrapper">
                     <div id="example_length" class="dataTables_length">
                     
@@ -111,7 +111,10 @@
 			<p><a href="${rootPath}/project/addForm.do">[신규 프로젝트 등록]</a></p>
 			</c:if> 
 
-</div><div class="dataTables_paginate paging_two_button" id="example_paginate"><div class="paginate_disabled_previous" title="Previous" id="example_previous"></div><div class="paginate_enabled_next" title="Next" id="example_next"></div></div></div>
+</div><div class="dataTables_paginate paging_two_button" id="example_paginate">
+<div class="paginate_disabled_previous" title="Previous" id="example_previous">
+</div><div class="paginate_enabled_next" title="Next" id="example_next"></div>
+</div></div>
                     
                     
                     
@@ -120,10 +123,9 @@
         </div>
 
 
-
 	<!-- Container End -->
     
-   </div>
+ 
 
     
 <!-- Tail -->

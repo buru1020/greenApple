@@ -95,7 +95,7 @@
                         </tr>
                         <tr>
                             <td><label>종료일</label></td>
-                            <td> <input type="text" id="date-picker" class="hasDatepicker" name="startDate" value="${project.endDate}" placeholder="예)2013-4-5">
+                            <td> <input type="text" id="date-picker" class="hasDatepicker" name="endDate" value="${project.endDate}" placeholder="예)2013-4-5">
                             <br></td>
                         </tr>
                          <tr>

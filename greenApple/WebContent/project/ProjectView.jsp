@@ -58,25 +58,26 @@
 <jsp:include page="/Header.jsp"></jsp:include>
         
 <!-- Sidebar -->
+
 <jsp:include page="/Sidebar.jsp"></jsp:include>
+
 
 <!-- Content -->
    
    
    
 	<!-- Container Start -->
-	
+
 <div class="grid_10">
             <div class="box round first grid">
            
-                <div class="block">
-                    
-                    
-                    
+                <div class="block ">
+                                  
                     <div class="dataTables_wrapper" id="example_wrapper">
                     <div id="example_length" class="dataTables_length">
                     
-          	<!-- Section Start -->
+          
+                           	<!-- Section Start -->
 	<section class=main_content_section>
 		<div>
 				<div id="submenu">
@@ -124,95 +125,30 @@
 		</div>
 	</section>
 	<!-- Section End -->
-                   
-                    
-                    </div>
-                    <div class="dataTables_filter" id="example_filter"></div>
-                   <div class="dataTables_info" id="example_info">
           
-</div>
-</div>      
+     </div>
+                   
+                   
+                   
+                   <div class="paginate_disabled_previous" title="Previous" id="example_previous"></div>
+                   <div class="paginate_enabled_next" title="Next" id="example_next"></div>
+                   </div>
+                  
+                    
+                    
+                    
                 </div>
             </div>
         </div>
 
 
-
 	<!-- Container End -->
     
-   </div>
-
     
 <!-- Tail -->
 <jsp:include page="/Tail.jsp"></jsp:include>
 
 </body>
+</html>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<%--	
-	
-	<!-- Section Start -->
-	<section class=main_content_section>
-		<div>
-				<div id="submenu">
-<p>
-<a href="view.do?no=${project.no}">[기본정보]</a>	|	
-<a href="../task/list.do?projectNo=${project.no}">[작업들]</a>	|	
-<a href="../feed/list.do?projectNo=${project.no}">[게시판]</a>
-</p>
-</div>
-			<h2>${project.title}</h2>
-			번호: ${project.no}<br>
-			PL: <c:choose>
-				<c:when test="${project.plName == ''}">없음</c:when>
-				<c:otherwise>${project.plName}</c:otherwise>
-			 </c:choose><br>
-			시작일: ${project.startDate}<br>
-			종료일: ${project.endDate}<br>
-			내용: <br>${project.content}	
-			<br>
-			<p><a href="list.do">[목록]</a>
-			<a href="update.do?no=${project.no}">[변경]</a>
-			<a href="delete.do?no=${project.no}">[삭제]</a>
-			</p>
-			<br>
-			<h2>프로젝트 맴버</h2>
-			<table style="text-align: center;">
-				<tr>
-					<th style="width: 5em;">이름</th>
-					<th style="width: 10em;">이메일</th>
-					<th style="width: 10em;">전화</th>
-					<th style="width: 10em;">블로그</th>
-				</tr>
-<c:forEach var="projectMember" items="${projectMemberList}">
-				<tr>
-					<td>${projectMember.name} <c:if test="${projectMember.projectLevel == 0}">★</c:if></td>
-					<td>${projectMember.email}</td>
-					<td>${projectMember.tel}</td>
-					<td><c:choose>
-						<c:when test="${projectMember.blog != ''}">${projectMember.blog}</c:when>
-						<c:otherwise>-</c:otherwise>
-					</c:choose></td>
-				</tr>
-</c:forEach>
-			</table>
-		</div>
-	</section>
-	<!-- Section End -->
-	
-	
---%>
