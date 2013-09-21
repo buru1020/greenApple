@@ -1,22 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!-- Header Start -->
         <div class="grid_12 header-repeat">
             <div id="branding">
-                <div class="floatleft">
-                	<a id="header_logo_a" href="${rootPath}/main.do">
-                	<img id="header_logo_img" src="${rootPath}/img/logo_wht.png" alt="Logo" ></a></div>
+                <div id="header_logo_div" class="floatleft">
+                	<a href="${rootPath}/main.do"><img id="header_logo_img" src="${rootPath}/img/logo_wht.png" alt="Logo" ></a></div>
                 <div class="floatright">
                     <div class="floatleft">
-                        <img src="${rootPath}/img/img-profile.jpg" alt="Profile Pic" /></div>
+					<c:choose>
+					<c:when test="${member.photos[0] != null}">
+						<img src="${rootPath}/res/photo/${member.photos[0]}" alt="Profile Pic" class="header_member_photo_img" >
+					</c:when>
+					<c:otherwise>
+						<img src="${rootPath}/img/img-profile.jpg" alt="Profile Pic" class="header_member_photo_img" />
+					</c:otherwise>
+					</c:choose>                    
+                    </div>    
                     <div class="floatleft marginleft10">
                         <ul class="inline-ul floatleft">
-                            <li>Hello Admin</li>
-                            <li><a href="#">Config</a></li>
-                            <li><a href="#">Logout</a></li>
+                            <li>Hello ${member.name}</li>
+                            <li><a href="${rootPath}/member/myInfoUpdateForm.do">Config</a></li>
+                            <li><a href="${rootPath}/auth/logout.do">Logout</a></li>
                         </ul>
                         <br />
-                        <span class="small grey">Last Login: 3 hours ago</span>
+                        <span class="small grey">010-5486-8412</span>
+                        <br />
+                        <span class="small grey">buru1020@gmail.com</span>
                     </div>
                 </div>
                 <div class="clear">
@@ -55,7 +65,29 @@
     
     
     
-<!-- 
+<!--
+
+		<!-- 프로필 
+		<div class="side_photo_div">
+			<c:choose>
+				<c:when test="${member.photos[0] != null}">
+					<img  alt="photo" src="${rootPath}/res/photo/${member.photos[0]}" class="side_menu_member_photo">
+				</c:when>
+				<c:otherwise>
+					<img  alt="photo" src="${rootPath}/res/photo/yk.jpg" class="side_menu_member_photo">
+				</c:otherwise>
+			</c:choose>
+		</div>
+		<div>
+			<p><a href="${rootPath}/member/myInfoUpdateForm.do">${member.name}</a><br>
+			${member.email}<br>
+			${member.tel}</p>
+		</div>
+
+
+
+
+ 
 <header id="header" role="banner" class="header_navi">
 	<nav class="aui-header aui-dropdown2-trigger-group"
 		role="navigation">

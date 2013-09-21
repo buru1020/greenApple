@@ -48,7 +48,8 @@
     
     
     <!-- 추가  CSS-->
-    <link rel="stylesheet" type="text/css" href="${rootPath}/css/header.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="${rootPath}/css/header.css" />
+    <link rel="stylesheet" type="text/css" href="${rootPath}/css/sidebar.css"/>
     <!-- //추가 CSs-->
 </head>
 <body>

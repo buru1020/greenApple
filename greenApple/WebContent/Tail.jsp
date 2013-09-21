@@ -3,6 +3,6 @@
     </div>
     <div id="site_info">
         <p>
-            Copyright <a href="#">BlueWhale Admin</a>. All Rights Reserved.
+            Bit Academy Java41 <a href="${rootPath}/main.do">Green Apple</a>.
         </p>
     </div>

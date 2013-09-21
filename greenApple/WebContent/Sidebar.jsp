@@ -10,14 +10,29 @@ pageContext.setAttribute("projectList", projectService.getMyProjects(member.getE
             <div class="box sidemenu">
                 <div class="block" id="section-menu">
                     <ul class="section menu">
-                        <li><a class="menuitem">Menu 1</a>
+<c:choose> 
+	<c:when test="${member.level == 1}">
+		<!-- 관리프로젝트 -->
+                        <li><a class="menuitem">관리메뉴</a>
                             <ul class="submenu">
-                                <li><a>Submenu 1</a> </li>
-                                <li><a>Submenu 2</a> </li>
-                              
+				                <li><a href="${rootPath}/member/list.do">멤버관리</a></li>
+								<li><a href="${rootPath}/project/list.do">프로젝트관리</a></li>
                             </ul>
-                        </li>
-                        <li><a class="menuitem">Menu 2</a>
+                        </li>		
+	</c:when>
+	<c:otherwise>
+		<!-- 참여프로젝트 -->
+                        <li><a class="menuitem">참여 프로젝트</a>
+                            <ul class="submenu">
+                            	<li class="sidebar_total"><a href="${rootPath}/project/list.do" ><span>전체보기</span></a></li>
+		<c:forEach var="myProject" items="${projectList}">			
+								<li><a href="${rootPath}/project/view.do?no=${myProject.no}" >${myProject.title}<c:if test="${myProject.level == 0}">&nbsp;&nbsp;★</c:if></a></li>
+		</c:forEach>	
+                            </ul>
+                        </li>		
+	</c:otherwise>
+</c:choose>                    
+<!--                         <li><a class="menuitem">Menu 2</a>
                             <ul class="submenu">
                                 <li><a>Submenu 1</a> </li>
                                 <li><a>Submenu 2</a> </li>
@@ -54,7 +69,8 @@ pageContext.setAttribute("projectList", projectService.getMyProjects(member.getE
                                 <li><a>Submenu 10</a> </li>
                     
                             </ul>
-                        </li>
+                        </li> 
+-->
                     </ul>
                 </div>
             </div>
@@ -69,24 +85,7 @@ pageContext.setAttribute("projectList", projectService.getMyProjects(member.getE
 
 
 
-<%--	
-	<aside class="side_menu_aside">
-		<!-- 프로필 -->
-		<div class="side_photo_div">
-			<c:choose>
-				<c:when test="${member.photos[0] != null}">
-					<img  alt="photo" src="${rootPath}/res/photo/${member.photos[0]}" class="side_menu_member_photo">
-				</c:when>
-				<c:otherwise>
-					<img  alt="photo" src="${rootPath}/res/photo/yk.jpg" class="side_menu_member_photo">
-				</c:otherwise>
-			</c:choose>
-		</div>
-		<div>
-			<p><a href="${rootPath}/member/myInfoUpdateForm.do">${member.name}</a><br>
-			${member.email}<br>
-			${member.tel}</p>
-		</div>
+<%--		
 
 <c:choose> 
 	<c:when test="${member.level == 1}">
@@ -116,5 +115,4 @@ pageContext.setAttribute("projectList", projectService.getMyProjects(member.getE
 		</div>
 	</c:otherwise>
 </c:choose>		
-	</aside>
- --%>	
+ --%>
