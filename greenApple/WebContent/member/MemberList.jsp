@@ -2,51 +2,82 @@
 <%@page import="net.bitacademy.java41.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta charset="utf-8">
-<title>Green Apple</title>
-<link rel="icon" type="image/png" href="${rootPath}/res/logo_sim.png">
-	
-<link rel="stylesheet" href="${rootPath}/css/base.css">	
-<link rel="stylesheet" href="${rootPath}/css/signup_1.css" type="text/css" />
-<link rel="stylesheet" href="${rootPath}/css/signup_2.css" type="text/css" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Green Apple</title>
+    <link rel="icon" type="image/png" href="${rootPath}/res/logo_sim.png">
+    
+    <link rel="stylesheet" type="text/css" href="${rootPath}/css/reset.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="${rootPath}/css/text.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="${rootPath}/css/grid.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="${rootPath}/css/layout.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="${rootPath}/css/nav.css" media="screen" />
+    <!--[if IE 6]><link rel="stylesheet" type="text/css" href="${rootPath}/css/ie6.css" media="screen" /><![endif]-->
+    <!--[if IE 7]><link rel="stylesheet" type="text/css" href="${rootPath}/css/ie.css" media="screen" /><![endif]-->
+    <link href="${rootPath}/css/table/demo_page.css" rel="stylesheet" type="text/css" />
+    <!-- BEGIN: load jquery -->
+    <script src="${rootPath}/js/jquery-1.6.4.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="${rootPath}/js/jquery-ui/jquery.ui.core.min.js"></script>
+    <script src="${rootPath}/js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
+    <script src="${rootPath}/js/jquery-ui/jquery.ui.accordion.min.js" type="text/javascript"></script>
+    <script src="${rootPath}/js/jquery-ui/jquery.effects.core.min.js" type="text/javascript"></script>
+    <script src="${rootPath}/js/jquery-ui/jquery.effects.slide.min.js" type="text/javascript"></script>
+    <script src="${rootPath}/js/jquery-ui/jquery.ui.mouse.min.js" type="text/javascript"></script>
+    <script src="${rootPath}/js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
+    <script src="${rootPath}/js/table/jquery.dataTables.min.js" type="text/javascript"></script>
+    <!-- END: load jquery -->
+    <script type="text/javascript" src="${rootPath}/js/table/table.js"></script>
+    <script src="${rootPath}/js/setup.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            setupLeftMenu();
+
+            $('.datatable').dataTable();
+			setSidebarHeight();
 
 
+        });
+    </script>
+    
+    
+    <!-- 추가  CSS-->
+    <link rel="stylesheet" type="text/css" href="${rootPath}/css/header.css" />
+    <link rel="stylesheet" type="text/css" href="${rootPath}/css/sidebar.css"/>
+    <link rel="stylesheet" type="text/css" href="${rootPath}/css/content.css"/>
+    
+    <!-- //추가 CSs-->
 </head>
-
-
-<body class="production workflow-layout">
-
-
+<body>
+    <div class="container_12">
+<!-- Header -->
 <jsp:include page="/Header.jsp"></jsp:include>
-
-
-
-<!-- Container Start -->
-<div id="container">
-
+        
+<!-- Sidebar -->
 <jsp:include page="/Sidebar.jsp"></jsp:include>
-	
-	
-	<!-- Section Start -->
-	<section class=main_content_section>
-		<h2>회원 관리</h2>
-		<div>
-			<table style="table-layout: fixed; width: 700px; text-align: center;">
-				<thead><tr>
-					<th>이름</th>
-					<th>이메일</th>
-					<th>전화</th>
-					<th>구분</th>
-				</tr></thead>
-				<tbody>
+
+<!-- Content -->
+        <div class="grid_10">
+            <div class="box round first grid">
+                <h2>
+					화원 목록</h2>
+                <div class="block">
+                    <table class="data display datatable" id="example">
+					<thead>
+						<tr>
+							<th>이름</th>
+							<th>이메일</th>
+							<th>전화</th>
+							<th>구분</th>
+							<!-- <th>CSS grade</th> -->
+						</tr>
+					</thead>
+					<tbody>
 <c:forEach var="member" items="${memberList}">				
-					<tr>
-						<td style="text-align: left;"><a href="${rootPath}/member/view.do?email=${member.email}">${member.name}</a></td>
+					<tr class="odd gradeX" onclick="document.location.href='${rootPath}/member/view.do?email=${member.email}';">
+						<td >${member.name}</td>
 						<td>${member.email}</td>
 						<td>${member.tel}</td>
 						<td><c:choose>
@@ -57,19 +88,27 @@
 						</c:choose></td>
 					</tr>
 </c:forEach>
-				</tbody>
-			</table>
-			<p><a href="${rootPath}/member/add.do">[새멤버]</a></p>
-		</div>
-	</section>
-	<!-- Section End -->
-	
-	
+						
+					</tbody>
+				</table>
+				<div class="table_bottom_btns_div">
+					<button class="btn-icon btn-green btn-person" 
+							onclick="document.location.href='${rootPath}/member/add.do';"><span></span>회원 등록</button>
+				</div>
+                    
+                </div>
+            </div>
+        </div>
+<!-- //Content -->
 
-</div>
-<!-- Container End -->
 
+        <div class="clear">
+        </div>
+    </div>
+<!-- Tail -->
 <jsp:include page="/Tail.jsp"></jsp:include>
 
 </body>
 </html>
+
+
