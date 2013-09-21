@@ -102,10 +102,10 @@
 					</c:forEach>
 					</tbody>
 			</table>
-  
-					 <button class="btn-icon btn-green btn-person" 
+			<div class="table_bottom_btns_div">
+				 <button class="btn-icon btn-green btn-person" 
 							onclick="document.location.href='${rootPath}/task/addForm.do?projectNo=${project.no}';"><span></span>새 작업 등록</button>
-				
+			</div>
                 </div>
             </div>
         </div>

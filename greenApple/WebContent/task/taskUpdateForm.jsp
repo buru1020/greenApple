@@ -160,9 +160,9 @@
                         </tr>
                     </table>
                     <div class="form_submit_div">
-						<input type="button" value="목록" class="btn btn-green"
+						<input type="button" value="목록" class="btn btn-orange"
 								onclick="document.location.href='list.do?projectNo=${task.projectNo}'">
-						<input type="submit" value="변경" class="btn btn-orange submit">
+						<input type="submit" value="변경" class="btn btn-green submit">
 						<input type="button" value="취소" class="btn btn-grey reset"
 								onclick="document.location.href='view.do?projectNo=${task.projectNo}&taskNo=${task.taskNo}'">
 					</div>

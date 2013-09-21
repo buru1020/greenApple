@@ -177,9 +177,9 @@
                         </tr>
                     </table>
                     <div class="form_submit_div">
-                    	<button class="btn btn-green" 
-                    			onclick="document.location.href='list.do';">목록</button>
                     	<button class="btn btn-orange" 
+                    			onclick="document.location.href='list.do';">목록</button>
+                    	<button class="btn btn-green" 
                     			onclick="document.location.href='updateForm.do?email=${memberInfo.email}';">변경</button>
                     	<button class="btn btn-grey" 
                     			onclick="document.location.href='delete.do?email=${memberInfo.email}';">삭제</button>

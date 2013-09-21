@@ -89,17 +89,21 @@
 
 				<div class="block ">
 					<form action="add.do" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="projectNo" value="${project.no}">
 						<table class="form">
 							<tbody>
 								<tr>
 									<td class="col1"><label>프로젝트 번호 </label></td>
-									<td class="col2"><input type="text" name="projectNo"
-										class="mini" value="${project.no}" disabled></td>
+									<td class="col2">${project.no}</td>
 								</tr>
 								<tr>
-									<td class="col1"><label>프로젝트 명 </label></td>
-									<td class="col2"><input type="text" name="projectNo"
-										class="mini" value=" ${project.title}" disabled><br></td>
+									<td class="col1"><label>프로젝트명 </label></td>
+									<td class="col2">${project.title}</td>
+								</tr>
+								<tr>
+									<td class="col1"><label>작업명 </label></td>
+									<td class="col2"><input type="text" name="title"
+										class="mini" value=" "><br></td>
 								</tr>
 								<tr>
 									<td class="col1"><label>UI프로토타입 </label></td>
@@ -108,7 +112,7 @@
 								</tr>
 								<tr>
 									<td><label>내용</label></td>
-									<td><textarea name="content" rows="6" cols="50">${task.content}</textarea><br></td>
+									<td><textarea name="content" rows="6" cols="50"></textarea><br></td>
 								</tr>
 								<tr>
 									<td><label>시작일</label></td>
