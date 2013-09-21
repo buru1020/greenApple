@@ -1,7 +1,7 @@
 <%@page import="net.bitacademy.java41.vo.ProjectEx"%>
 <%@page import="net.bitacademy.java41.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="${rootPath}/css/nav.css" media="screen" />
     <!--[if IE 6]><link rel="stylesheet" type="text/css" href="${rootPath}/css/ie6.css" media="screen" /><![endif]-->
     <!--[if IE 7]><link rel="stylesheet" type="text/css" href="${rootPath}/css/ie.css" media="screen" /><![endif]-->
+    <link href="${rootPath}/css/table/demo_page.css" rel="stylesheet" type="text/css" />
     <!-- BEGIN: load jquery -->
     <script src="${rootPath}/js/jquery-1.6.4.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="${rootPath}/js/jquery-ui/jquery.ui.core.min.js"></script>
@@ -23,32 +24,29 @@
     <script src="${rootPath}/js/jquery-ui/jquery.ui.accordion.min.js" type="text/javascript"></script>
     <script src="${rootPath}/js/jquery-ui/jquery.effects.core.min.js" type="text/javascript"></script>
     <script src="${rootPath}/js/jquery-ui/jquery.effects.slide.min.js" type="text/javascript"></script>
+    <script src="${rootPath}/js/jquery-ui/jquery.ui.mouse.min.js" type="text/javascript"></script>
+    <script src="${rootPath}/js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
+    <script src="${rootPath}/js/table/jquery.dataTables.min.js" type="text/javascript"></script>
     <!-- END: load jquery -->
-    <!-- BEGIN: load jqplot -->
-    <link rel="stylesheet" type="text/css" href="${rootPath}/css/jquery.jqplot.min.css" />
-    <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="${rootPath}/js/jqPlot/excanvas.min.js"></script><![endif]-->
-    <script language="javascript" type="text/javascript" src="${rootPath}/js/jqPlot/jquery.jqplot.min.js"></script>
-    <script language="javascript" type="text/javascript" src="${rootPath}/js/jqPlot/plugins/jqplot.barRenderer.min.js"></script>
-    <script language="javascript" type="text/javascript" src="${rootPath}/js/jqPlot/plugins/jqplot.pieRenderer.min.js"></script>
-    <script language="javascript" type="text/javascript" src="${rootPath}/js/jqPlot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
-    <script language="javascript" type="text/javascript" src="${rootPath}/js/jqPlot/plugins/jqplot.highlighter.min.js"></script>
-    <script language="javascript" type="text/javascript" src="${rootPath}/js/jqPlot/plugins/jqplot.pointLabels.min.js"></script>
-    <!-- END: load jqplot -->
+    <script type="text/javascript" src="${rootPath}/js/table/table.js"></script>
     <script src="${rootPath}/js/setup.js" type="text/javascript"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
-            setupDashboardChart('chart1');
             setupLeftMenu();
+
+            $('.datatable').dataTable();
 			setSidebarHeight();
 
 
         });
     </script>
+      
+   <!-- 추가  CSS-->
+    <link rel="stylesheet" type="text/css" href="${rootPath}/css/header.css" />
+    <link rel="stylesheet" type="text/css" href="${rootPath}/css/sidebar.css"/>
+    <link rel="stylesheet" type="text/css" href="${rootPath}/css/content.css"/>
     
-    
-    <!-- 추가  CSS-->
-    <link rel="stylesheet" type="text/css" href="${rootPath}/css/header.css" media="screen" />
     <!-- //추가 CSs-->
 </head>
 <body>
@@ -57,16 +55,13 @@
 <jsp:include page="/Header.jsp"></jsp:include>
         
 <!-- Sidebar -->
-
 <jsp:include page="/Sidebar.jsp"></jsp:include>
-
 
 <!-- Content -->
    
    
    
 	<!-- Container Start -->
-
 
 
 	<div class="grid_10">
@@ -78,37 +73,42 @@
                         <tbody>
                         <tr>
                         <td class="col1"><label>번호</label></td>
-                        <td class="col2"><input type="text" name="no" value="${project.no}" readonly="readonly"><br></td>
+                        <td class="col2"><input type="text" value="${project.no}" readonly="readonly" name="no"/><br></td>
                         </tr>
                         <tr>
                             <td class="col1"><label>프로젝트 명 </label></td>
-                            <td class="col2"><input type="text" name="title" value="${project.title}"><br></td>
+                            <td class="col2"><input type="text" class="mini" value="${project.title}" name="title"/><br></td>
                         </tr>
                         <tr>
                             <td><label>내용</label></td>
-                            <td><textarea name="content" rows="4" cols="50">${project.content}</textarea><br></td>
+                            <td><textarea rows="10" cols="50" name="content">${project.content}</textarea><br></td>
                         </tr>
                         <tr>
                             <td><label>시작일</label></td>
-                            <td> <input type="text" id="date-picker" class="hasDatepicker" name="startDate" value="${project.startDate}" placeholder="예)2013-4-5">
+                            <td> <input type="text" class="mini" value="${project.startDate}" placeholder="예)2013-4-5" name="startDate"/>
                             <br></td>
                         </tr>
                         <tr>
                             <td><label>종료일</label></td>
-                            <td> <input type="text" id="date-picker" class="hasDatepicker" name="endDate" value="${project.endDate}" placeholder="예)2013-4-5">
+                            <td> <input type="text" class="mini" value="${project.endDate}" placeholder="예)2013-4-5" name="endDate"/>
                             <br></td>
                         </tr>
                          <tr>
                             <td><label>태그</label></td>
-                            <td> <input type="text" name="tag" value="${project.tag}" placeholder="예)태그1 태그2 태그3 (공백으로 구분)">
+                            <td> <input type="text" class="mini" value="${project.tag}" placeholder="예)태그1 태그2 태그3 (공백으로 구분)" name="tag"/>
                             <br></td>
                         </tr>
                    
                      
                     </tbody></table>
-                    
-                    <input type="submit" value="등록">
-				<a href="${rootPath}/project/view.do?no=${project.no}">[취소]</a><a href="list.do">[목록]</a><br>
+                    <div class="form_submit_div">
+						<input type="submit" value="등록" class="btn btn-green submit">
+						<input type="reset" value="취소" 
+						onclick="document.location.href='${rootPath}/project/view.do?no=${project.no}';"class="btn btn-grey reset">
+						<input type="reset" value="목록" 
+						onclick="document.location.href='${rootPath}/project/list.do';" class="btn btn-yello reset">
+					</div>
+                   
 				
                     </form>
             
@@ -116,18 +116,18 @@
             </div>
         </div>
 	
+<!-- //Content -->
 
 
-	<!-- Container End -->
-    
-    
-    
+        <div class="clear">
+        </div>
+    </div>
 <!-- Tail -->
 <jsp:include page="/Tail.jsp"></jsp:include>
 
 </body>
 </html>
-
+			
 
 
 <%-- 	<!-- Container Start -->
