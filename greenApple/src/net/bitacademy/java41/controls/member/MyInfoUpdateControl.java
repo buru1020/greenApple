@@ -57,7 +57,7 @@ public class MyInfoUpdateControl implements PageControl {
 		member.setBlog(!"".equals(blog) ? blog : member.getBlog());
 		member.setTag(!"".equals(tag) ? tag : member.getTag());
 		member.setLevel(level != 0 ? level : member.getLevel()); 
-		member.setPhotos( photos != null ? photos : member.getPhotos() );
+		member.setPhotos( photos );
 		
 		
 		int count = memberService.myInfoChange(member);

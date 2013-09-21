@@ -1,11 +1,9 @@
-<%@page import="net.bitacademy.java41.vo.ProjectEx"%>
-<%@page import="net.bitacademy.java41.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8"/>
     <title>Green Apple</title>
     <link rel="icon" type="image/png" href="${rootPath}/res/logo_sim.png">
     
@@ -86,53 +84,53 @@
         <div class="grid_10">
             <div class="box round first fullpage">
                 <h2>
-					회원등록</h2>
+					회원정보 변경</h2>
                 <div class="block ">
-                    <form action="add.do" method="post">
+                    <form action="update.do" method="post" enctype="multipart/form-data">
                     <table class="form">
                         <tr>
                             <td>
                                 <label>
-                                    *이메일</label>
+                                    	이메일</label>
                             </td>
                             <td>
-                                <input type="text" class="mini" name="email"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>
-                                    *비밀번호</label>
-                            </td>
-                            <td>
-                                <input type="password" class="mini" name="password"/>
+                                <input type="text" class="mini" name="email" value="${memberInfo.email}" readonly="readonly">
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <label>
-                                    *비밀번호(확인)</label>
+                                    	비밀번호</label>
                             </td>
                             <td>
-                                <input type="password" class="mini" name="password2"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>
-                                    *이름</label>
-                            </td>
-                            <td>
-                                <input type="text" class="mini" name="name"/>
+                                <input type="password" class="mini" name="password">
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <label>
-                                    *전화</label>
+                                    	이름</label>
                             </td>
                             <td>
-                                <input type="text" class="mini" name="tel"/>
+                                <input type="text" class="mini" name="name" value="${memberInfo.name}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    	전화</label>
+                            </td>
+                            <td>
+                                <input type="text" class="mini" name="tel" value="${memberInfo.tel}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>
+										사진</label>
+                            </td>
+                            <td>
+                                <input type="file" class="mini" name="photo">
                             </td>
                         </tr>
                         <tr>
@@ -141,7 +139,7 @@
                                     	블로그</label>
                             </td>
                             <td>
-                                <input type="text" class="mini" name="blog"/>
+                                <input type="text" class="mini" name="blog" value="${memberInfo.blog}">
                             </td>
                         </tr>
                         <tr>
@@ -150,8 +148,8 @@
                                     	우편변호</label>
                             </td>
                             <td>
-                                <input type="text" class="mini" name="postno"/>
-                                <input type="button" value="우편번호찾기">
+                                <input type="text"class="mini"  name="postno" value="">
+								<input type="button" value="우편번호찾기">
                             </td>
                         </tr>
                         <tr>
@@ -160,7 +158,7 @@
                                    	  	기본주소</label>
                             </td>
                             <td>
-                                <input type="text" class="mini" name="basicAddr"/>
+                                <input type="text" class="mini" name="basicAddr" value="">
                             </td>
                         </tr>
                         <tr>
@@ -169,7 +167,7 @@
                                     	상세주소</label>
                             </td>
                             <td>
-                                <input type="text" class="mini" name="detailAddr"/>
+                                <input type="text" class="mini" name="detailAddr" value="${memberInfo.detailAddress}">
                             </td>
                         </tr>
                         <tr>
@@ -178,7 +176,7 @@
                                     	태그</label>
                             </td>
                             <td>
-                                <input type="text" class="mini" name="tag"/>
+                                <input type="text" name="tag" class="mini" value="${memberInfo.tag}">
                             </td>
                         </tr>
                         <tr>
@@ -188,17 +186,28 @@
                             </td>
                             <td>
                                 <select id="select" name="level">
-                                	<option value="0" selected>일반회원</option>
-									<option value="1">관리자</option>
-									<option value="2">PM</option>
-									<option value="9">손님</option>
+                                <c:choose>
+								<c:when test="${memberInfo.level == 0}">
+									<option value="0" selected>일반회원</option>
+								</c:when>
+								<c:when test="${memberInfo.level == 1}">
+								<option value="1" selected>관리자</option>
+								</c:when>
+								<c:when test="${memberInfo.level == 2}">
+								<option value="2" selected>PM</option>
+								</c:when>
+								<c:when test="${memberInfo.level == 3}">
+								<option value="9" selected>손님</option>
+								</c:when>
+								</c:choose>                         
                                 </select>
                             </td>
                         </tr>
                     </table>
                     <div class="form_submit_div">
-						<input type="submit" value="등록" class="btn btn-green submit">
-						<input type="reset" value="취소" class="btn btn-grey reset">
+						<input type="submit" value="변경" class="btn btn-green submit">
+						<input type="button" value="취소" class="btn btn-grey reset"
+								onclick="document.location.href='${rootPath}/member/view.do?email=${memberInfo.email}'">
 					</div>
                     </form>
                 </div>
@@ -215,50 +224,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-	<!-- Section Start -->
-	<section class=main_content_section>
-			<h1>회원 등록</h1>
-			<form action="update.do" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="memberInfo" value="${memberInfo}">
-			이메일: <input type="text" name="email" value="${memberInfo.email}" readonly="readonly"><br>
-			암호: <input type="password" name="password"><br>
-			이름: <input type="text" name="name" value="${memberInfo.name}"><br>
-			전화: <input type="text" name="tel" value="${memberInfo.tel}"><br>
-			사진: <input type="file" name="photo"><br>
-			블로그: <input type="text" name="blog" value="${memberInfo.blog}"><br>
-			우편번호: <input type="text" name="postno" value="">
-					<input type="button" value="우편번호찾기"><br>
-			기본주소: <input type="text" name="basicAddr" value=""><br>
-			상세주소: <input type="text" name="detailAddr" value="${memberInfo.detailAddress}"><br>
-			태그: <input type="text" name="tag" value="${memberInfo.tag}"><br>
-			권한: <select name="level">
-			<c:choose>
-			<c:when test="${memberInfo.level == 0}">
-				<option value="0" selected>일반회원</option>
-			</c:when>
-			<c:when test="${memberInfo.level == 1}">
-			<option value="1" selected>관리자</option>
-			</c:when>
-			<c:when test="${memberInfo.level == 2}">
-			<option value="2" selected>PM</option>
-			</c:when>
-			<c:when test="${memberInfo.level == 3}">
-			<option value="9" selected>손님</option>
-			</c:when>
-			</c:choose>
-			</select><br>
-			
-			<input type="submit" value="변경">
-			<a href="${rootPath}/member/view.do?email=${memberInfo.email}">취소</a>
-			</form>
-			<p><a href="list.do">[목록]</a></p>
-	</section>
