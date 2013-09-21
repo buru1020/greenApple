@@ -1,0 +1,7 @@
+#header_logo_img {
+	width: 150px;
+	height: 40px;
+}
+#header_logo_a a:before {
+	content: " ";
+}
