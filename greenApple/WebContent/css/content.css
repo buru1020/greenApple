@@ -14,3 +14,7 @@
 	float: right;
 	margin: 5px;
 }
+.content_member_photo_img {
+	width: 150px;
+	height: 150px;
+}

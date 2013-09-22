@@ -80,8 +80,8 @@
 					
 					<tbody>
 						<c:forEach var="project" items="${totalProjectList}">			
-					<tr>
-						<td style="text-align: left;"><a href="${rootPath}/project/view.do?no=${project.no}">${project.title}</a></td>
+					<tr onclick="document.location.href='${rootPath}/project/view.do?no=${project.no}'">
+						<td style="text-align: left;">${project.title}</td>
 						<td>${project.startDate}</td>
 						<td>${project.endDate}</td>
 						<td><c:choose>

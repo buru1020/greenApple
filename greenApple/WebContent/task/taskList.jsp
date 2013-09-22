@@ -87,8 +87,8 @@
 					</thead>
 					<tbody>
 						<c:forEach var="task" items="${taskList}">			
-					<tr>
-						<td><a href="view.do?projectNo=${task.projectNo}&taskNo=${task.taskNo}">${task.title}</a></td>
+					<tr onclick="document.location.href='view.do?projectNo=${task.projectNo}&taskNo=${task.taskNo}'">
+						<td>${task.title}</td>
 						<td>${task.startDate}</td>
 						<td>${task.endDate}</td>
 						<td><c:choose>

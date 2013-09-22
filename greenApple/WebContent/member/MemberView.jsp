@@ -1,6 +1,3 @@
-<%@page import="java.util.Map"%>
-<%@page import="net.bitacademy.java41.vo.ProjectEx"%>
-<%@page import="net.bitacademy.java41.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -89,6 +86,22 @@
 					회원정보</h2>
                 <div class="block ">
                     <table class="form">
+                    <tr>
+                            <td>
+                                <label>
+                                    	</label>
+                            </td>
+                            <td>
+                               <c:choose>
+							<c:when test="${member.photos[0] != null}">
+								<img src="${rootPath}/res/photo/${member.photos[0]}" alt="Profile Pic" class="content_member_photo_img" >
+							</c:when>
+							<c:otherwise>
+								<img src="${rootPath}/img/img-profile.jpg" alt="Profile Pic" class="content_member_photo_img" >
+							</c:otherwise>
+							</c:choose>
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 <label>
